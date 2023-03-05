@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medical_box/screens/home_page.dart';
+import 'package:medical_box/core/widgets/wrapper.dart';
+import 'features/authentication/Log_in_screen/login_page.dart';
+import 'features/home_screen/home_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 void main() {
@@ -12,18 +15,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // routes: {
-      //   MyRoute.homePage: (context)=> const HomePage(),
-      //   MyRoute.loginPage: (context)=> const HomePage(),
-      //   MyRoute.mapPage: (context)=> const HomePage(),
-      // },
-      // initialRoute: MyRoute.homePage,
-      home: const HomePage(),
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context , child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Medical Box',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
+          ),
+          home: child,
+        );
+      },
+      child: const Wrapper(),
     );
   }
 }
