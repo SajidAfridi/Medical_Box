@@ -66,7 +66,7 @@ class _LogInScreenState extends State<LogInScreen> {
                         ),
                       ),
                       focusColor: Colors.green,
-                      hintText: "Password",
+                      hintText: "Email",
                       //errorText: "The Email is not correct",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -118,27 +118,78 @@ class _LogInScreenState extends State<LogInScreen> {
                   ElevatedButton(
                     onPressed: () {},
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
-                      elevation: MaterialStateProperty.all<double>(1.0),
-                      maximumSize: MaterialStateProperty.all(const Size(200, 40)),
-                      minimumSize: MaterialStateProperty.all(const Size(200, 40)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                side: const BorderSide(color: Colours.borderColor)
-                            )
-                        )
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                        elevation: MaterialStateProperty.all<double>(1.0),
+                        maximumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(
+                                        color: Colours.borderColor)))),
+                    child: const Text(
+                      "Log In",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
                     ),
-                    child: const Text("Log In",style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                    ),),
                   ),
                   fixSizedBox10,
                   divider4,
                   fixSizedBox10,
-                  loginButton,
-                  loginButton,
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                        elevation: MaterialStateProperty.all<double>(1.0),
+                        maximumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(
+                                        color: Colours.borderColor)))),
+                    child: const Text(
+                      "Login As Admin",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                        elevation: MaterialStateProperty.all<double>(1.0),
+                        maximumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(
+                                        color: Colours.borderColor)))),
+                    child: const Text(
+                      "Login As User",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
                   fixSizedBox10,
                   forgotRegistrationButton,
                 ],
