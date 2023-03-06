@@ -166,6 +166,33 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                     ),
                   ),
+<<<<<<< HEAD
+=======
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.green),
+                        elevation: MaterialStateProperty.all<double>(1.0),
+                        maximumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        minimumSize:
+                            MaterialStateProperty.all(const Size(200, 40)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    side: const BorderSide(
+                                        color: Colours.borderColor)))),
+                    child: const Text(
+                      "Login As User",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+>>>>>>> 5881a80fa2c9d895856443dcb764233093e1d64c
                   fixSizedBox10,
                   forgotRegistrationButton,
                 ],
