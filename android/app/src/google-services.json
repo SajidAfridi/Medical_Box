@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "128019095116",
+    "project_id": "medical-box-project-fyp",
+    "storage_bucket": "medical-box-project-fyp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128019095116:android:fc2e3122bbc8b66d58dee9",
+        "android_client_info": {
+          "package_name": "com.example.medical_box"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128019095116-89tig04lprmotjfootdc22frdkv78ri9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsOmrkWDvqwUhERmPOyyuh0R-ODg0dvaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128019095116-89tig04lprmotjfootdc22frdkv78ri9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
