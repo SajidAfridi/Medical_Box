@@ -166,8 +166,6 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                     ),
                   ),
-<<<<<<< HEAD
-=======
                   ElevatedButton(
                     onPressed: () {},
                     style: ButtonStyle(
@@ -192,7 +190,6 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                     ),
                   ),
->>>>>>> 5881a80fa2c9d895856443dcb764233093e1d64c
                   fixSizedBox10,
                   forgotRegistrationButton,
                 ],
