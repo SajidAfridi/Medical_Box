@@ -4,7 +4,6 @@ import 'features/authentication/Log_in_screen/login_page.dart';
 import 'features/home_screen/home_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context , child) {
+      builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Medical Box',
@@ -30,9 +29,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: const Wrapper(),
+      child: LogInScreen(),
     );
   }
 }
-
-
