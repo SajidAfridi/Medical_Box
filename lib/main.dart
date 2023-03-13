@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medical_box/core/widgets/wrapper.dart';
+import 'package:medical_box/features/authentication/Log_in_screen/register_page.dart';
 import 'features/authentication/Log_in_screen/login_page.dart';
 import 'features/home_screen/home_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
           home: child,
         );
       },
-      child: LogInScreen(),
+      child: const Register_Screen(),
     );
   }
 }

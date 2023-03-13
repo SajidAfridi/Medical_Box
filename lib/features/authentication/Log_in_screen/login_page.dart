@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medical_box/utils/Buttons/login_button_common.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/core/widgets/common_text_fields.dart';
-import 'package:medical_box/utils/Buttons/text_button_forgot_registration.dart';
 import 'package:medical_box/utils/dividers.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -40,78 +38,86 @@ class _LogInScreenState extends State<LogInScreen> {
             child: Form(
               child: Column(
                 children: [
-                  TextFormField(
-                    onChanged: (val) {
-                      setState(() {
-                        email = val;
-                      });
-                    },
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: const InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colours.borderColor,
-                        ),
+                  Container(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          email = val;
+                        });
+                      },
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colours.borderColor,
-                        ),
-                      ),
-                      focusColor: Colors.green,
-                      hintText: "Email",
-                      //errorText: "The Email is not correct",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                      decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide: BorderSide(
-                            color: Colors.green,
-                            width: 2.0,
-                          )),
+                            width: 1,
+                            color: Colours.borderColor,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colours.borderColor,
+                          ),
+                        ),
+                        focusColor: Colors.green,
+                        hintText: "Email",
+                        //errorText: "The Email is not correct",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              color: Colors.green,
+                              width: 2.0,
+                            )),
+                      ),
                     ),
                   ),
                   fixSizedBox10,
-                  TextFormField(
-                    obscureText: true,
-                    onChanged: (val) {
-                      setState(() {
-                        password = val;
-                      });
-                    },
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: const InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colours.borderColor,
-                        ),
+                  Container(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      obscureText: true,
+                      onChanged: (val) {
+                        setState(() {
+                          password = val;
+                        });
+                      },
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: Colours.borderColor,
-                        ),
-                      ),
-                      focusColor: Colors.green,
-                      hintText: "Password",
-                      //errorText: "The Email is not correct",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                      decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
                           borderSide: BorderSide(
-                            color: Colors.green,
-                            width: 2.0,
-                          )),
+                            width: 1,
+                            color: Colours.borderColor,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          borderSide: BorderSide(
+                            width: 1,
+                            color: Colours.borderColor,
+                          ),
+                        ),
+                        focusColor: Colors.green,
+                        hintText: "Password",
+                        //errorText: "The Email is not correct",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            borderSide: BorderSide(
+                              color: Colors.green,
+                              width: 2.0,
+                            )),
+                      ),
                     ),
                   ),
                   fixSizedBox20,
@@ -191,7 +197,14 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   fixSizedBox10,
-                  forgotRegistrationButton,
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Forgot Registration?",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400, color: Colors.black),
+                    ),
+                  )
                 ],
               ),
             ),

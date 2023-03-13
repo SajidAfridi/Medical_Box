@@ -16,7 +16,7 @@ class _MyHomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children:[
             Text(
-              " Hello ",
+              " hi, Hello ",
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
