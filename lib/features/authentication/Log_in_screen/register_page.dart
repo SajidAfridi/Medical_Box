@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
-import 'package:medical_box/utils/dividers.dart';
+import 'package:medical_box/utils/button_style.dart';
+import 'package:medical_box/utils/input_decoration.dart';
 
-class Register_Screen extends StatefulWidget {
-  const Register_Screen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<Register_Screen> createState() => _Register_ScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _Register_ScreenState extends State<Register_Screen> {
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _formkey = GlobalKey<FormState>();
+  String error = '';
+
   String box_id = '';
   String admin_id = '';
   String team_leader_email = '';
@@ -36,326 +40,146 @@ class _Register_ScreenState extends State<Register_Screen> {
             ),
           ),
           fixSizedBox40,
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-            child: Form(
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      onChanged: (val) {
-                        setState(() {
-                          box_id = val;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Box Id",
-                        //errorText: "The Email is not correct",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
+          Form(
+            key: _formkey,
+            child: Column(
+              children: [
+                SizedBox(
+                  width: ScreenUtil().setWidth(290),
+                  height: ScreenUtil().setHeight(50),
+                  child: TextFormField(
+                    onChanged: (val) {
+                      setState(() {
+                        box_id = val;
+                      });
+                    },
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    decoration: inputDecoration("Box ID"),
+                  ),
+                ),
+                fixSizedBox10,
+                SizedBox(
+                  width: ScreenUtil().setWidth(290),
+                  height: ScreenUtil().setHeight(50),
+                  child: TextFormField(
+                    obscureText: false,
+                    onChanged: (val) {
+                      setState(() {
+                        admin_id = val;
+                      });
+                    },
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    decoration: inputDecoration("Admin ID"),
+                  ),
+                ),
+                fixSizedBox10,
+                SizedBox(
+                  width: ScreenUtil().setWidth(290),
+                  height: ScreenUtil().setHeight(50),
+                  child: TextFormField(
+                    obscureText: false,
+                    onChanged: (val) {
+                      setState(() {
+                        team_leader_email = val;
+                      });
+                    },
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    decoration: inputDecoration("Team Leader Email"),
+                  ),
+                ),
+                fixSizedBox10,
+                SizedBox(
+                  width: ScreenUtil().setWidth(290),
+                  height: ScreenUtil().setHeight(50),
+                  child: TextFormField(
+                    obscureText: false,
+                    onChanged: (val) {
+                      setState(() {
+                        contact_number = val;
+                      });
+                    },
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    decoration: inputDecoration("Contact Number"),
+                  ),
+                ),
+                fixSizedBox10,
+                SizedBox(
+                  width: ScreenUtil().setWidth(290),
+                  height: ScreenUtil().setHeight(50),
+                  child: TextFormField(
+                    onChanged: (val) {
+                      setState(() {
+                        team_id = val;
+                      });
+                    },
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    decoration: inputDecoration("Team ID"),
+                  ),
+                ),
+                fixSizedBox10,
+                SizedBox(
+                  width: ScreenUtil().setWidth(290),
+                  height: ScreenUtil().setHeight(50),
+                  child: TextFormField(
+                    obscureText: true,
+                    onChanged: (val) {
+                      setState(() {
+                        password = val;
+                      });
+                    },
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    decoration: inputDecoration("Password"),
+                  ),
+                ),
+                fixSizedBox10,
+                SizedBox(
+                  width: ScreenUtil().setWidth(290),
+                  height: ScreenUtil().setHeight(50),
+                  child: TextFormField(
+                    obscureText: true,
+                    onChanged: (val) {
+                      setState(() {
+                        confirm_password = val;
+                      });
+                    },
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                    decoration: inputDecoration("Confirm Password"),
+                  ),
+                ),
+                fixSizedBox20,
+                ElevatedButton(
+                  onPressed: () {},
+                  style: buttonStyle,
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
                     ),
                   ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      obscureText: false,
-                      onChanged: (val) {
-                        setState(() {
-                          password = val;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Admin ID",
-                        //errorText: "The Email is not correct",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
-                    ),
-                  ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      obscureText: false,
-                      onChanged: (val) {
-                        setState(() {
-                          team_leader_email = val;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Team Leader Email",
-                        //errorText: "The Email is not correct",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
-                    ),
-                  ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      obscureText: false,
-                      onChanged: (val) {
-                        setState(() {
-                          contact_number = val;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Contact Number",
-                        //errorText: "The Email is not correct",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
-                    ),
-                  ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      onChanged: (val) {
-                        setState(() {
-                          team_id = val;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Team Id",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
-                    ),
-                  ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      obscureText: true,
-                      onChanged: (val) {
-                        setState(() {
-                          password = val;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Password",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
-                    ),
-                  ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      obscureText: true,
-                      onChanged: (val) {
-                        setState(() {
-                          confirm_password = val;
-                        });
-                      },
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Confirm Password",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
-                    ),
-                  ),
-                  fixSizedBox20,
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.green),
-                        elevation: MaterialStateProperty.all<double>(1.0),
-                        maximumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        minimumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(
-                                        color: Colours.borderColor)))),
-                    child: const Text(
-                      "Log In",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],

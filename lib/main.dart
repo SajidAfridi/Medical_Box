@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:medical_box/core/widgets/wrapper.dart';
-import 'package:medical_box/features/authentication/Log_in_screen/register_page.dart';
-import 'features/authentication/Log_in_screen/login_page.dart';
-import 'features/home_screen/home_page.dart';
+import 'package:medical_box/features/authentication/Log_in_screen/login_page.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medical_box/features/authentication/Log_in_screen/register_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,13 +22,13 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Medical Box',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.green,
             textTheme: Typography.englishLike2018.apply(fontSizeFactor: 1.sp),
           ),
           home: child,
         );
       },
-      child: const Register_Screen(),
+      child: const RegisterScreen(),
     );
   }
 }

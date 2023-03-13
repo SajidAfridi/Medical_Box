@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
-import 'package:medical_box/core/widgets/common_text_fields.dart';
+import 'package:medical_box/utils/button_style.dart';
 import 'package:medical_box/utils/dividers.dart';
+import 'package:medical_box/utils/input_decoration.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -13,7 +14,9 @@ class LogInScreen extends StatefulWidget {
 }
 
 class _LogInScreenState extends State<LogInScreen> {
-  final controller = TextEditingController();
+  final _formkey = GlobalKey<FormState>();
+  String error = '';
+
   String email = '';
   String password = '';
 
@@ -36,9 +39,10 @@ class _LogInScreenState extends State<LogInScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
             child: Form(
+              key: _formkey,
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     width: ScreenUtil().setWidth(290),
                     height: ScreenUtil().setHeight(50),
                     child: TextFormField(
@@ -51,35 +55,11 @@ class _LogInScreenState extends State<LogInScreen> {
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
                       ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Email",
-                        //errorText: "The Email is not correct",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
+                      decoration: inputDecoration("Email"),
                     ),
                   ),
                   fixSizedBox10,
-                  Container(
+                  SizedBox(
                     width: ScreenUtil().setWidth(290),
                     height: ScreenUtil().setHeight(50),
                     child: TextFormField(
@@ -93,50 +73,13 @@ class _LogInScreenState extends State<LogInScreen> {
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
                       ),
-                      decoration: const InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          borderSide: BorderSide(
-                            width: 1,
-                            color: Colours.borderColor,
-                          ),
-                        ),
-                        focusColor: Colors.green,
-                        hintText: "Password",
-                        //errorText: "The Email is not correct",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            borderSide: BorderSide(
-                              color: Colors.green,
-                              width: 2.0,
-                            )),
-                      ),
+                      decoration: inputDecoration("Password"),
                     ),
                   ),
                   fixSizedBox20,
                   ElevatedButton(
                     onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.green),
-                        elevation: MaterialStateProperty.all<double>(1.0),
-                        maximumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        minimumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(
-                                        color: Colours.borderColor)))),
+                    style: buttonStyle,
                     child: const Text(
                       "Log In",
                       style: TextStyle(
@@ -150,20 +93,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   fixSizedBox10,
                   ElevatedButton(
                     onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.green),
-                        elevation: MaterialStateProperty.all<double>(1.0),
-                        maximumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        minimumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(
-                                        color: Colours.borderColor)))),
+                    style: buttonStyle,
                     child: const Text(
                       "Login As Admin",
                       style: TextStyle(
@@ -174,20 +104,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.green),
-                        elevation: MaterialStateProperty.all<double>(1.0),
-                        maximumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        minimumSize:
-                            MaterialStateProperty.all(const Size(200, 40)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    side: const BorderSide(
-                                        color: Colours.borderColor)))),
+                    style: buttonStyle,
                     child: const Text(
                       "Login As User",
                       style: TextStyle(
