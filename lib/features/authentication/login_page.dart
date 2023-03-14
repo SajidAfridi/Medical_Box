@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
-import 'package:medical_box/utils/button_style.dart';
+import 'package:medical_box/widgets/button_style.dart';
 import 'package:medical_box/utils/dividers.dart';
-import 'package:medical_box/utils/input_decoration.dart';
+import 'package:medical_box/widgets/input_decoration.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -30,7 +30,7 @@ class _LogInScreenState extends State<LogInScreen> {
         children: [
           const Center(
             child: Image(
-              image: AssetImage("assets/images/firstaid 1.png"),
+              image: AssetImage("assets/images/firstaidIcon.png"),
               width: 193,
               height: 100,
             ),
