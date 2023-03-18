@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
 
 Row header(context, String text, Icon icons) {
@@ -16,12 +17,12 @@ Row header(context, String text, Icon icons) {
       ),
       Text(
         text,
-        style: const TextStyle(
-            fontSize: 20,
+        style: TextStyle(
+            fontSize: 20.sp,
             color: Colours.themeColor,
             fontWeight: FontWeight.w400),
       ),
-      const SizedBox(width: 6),
+      SizedBox(width: 6.w),
       icons,
     ],
   );

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medical_box/features/authentication/login_page.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/utils/dividers.dart';
@@ -20,7 +19,7 @@ class _DrawerButtonsState extends State<DrawerButtons> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if(widget.text == "Box"){
+        if(widget.text == "Home"){
           Navigator.pushNamed(context, 'home_screen');
         }
         else if(widget.text == "User"){
@@ -37,8 +36,8 @@ class _DrawerButtonsState extends State<DrawerButtons> {
         }
       },
       child: SizedBox(
-        height: ScreenUtil().setHeight(82),
-        width: ScreenUtil().setWidth(42),
+        height: 82.h,
+        width: 42.w,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,16 +45,16 @@ class _DrawerButtonsState extends State<DrawerButtons> {
               Center(
                 child: Text(
                   widget.text,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colours.whiteBackgroundColor,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
               fixSizedBox10,
               SizedBox(
-                  width: ScreenUtil().setWidth(130.0), child: drawerDivider),
+                  width: 130.w, child: drawerDivider),
             ],
           ),
         ),

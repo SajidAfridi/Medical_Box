@@ -4,13 +4,13 @@ import 'package:medical_box/utils/app_colors.dart';
 
 Container homeContainer(String title, Icon subtitleIcon) {
   return Container(
-    width: ScreenUtil().setWidth(345),
-    height: ScreenUtil().setHeight(122),
+    width: 345.w,
+    height: 122.h,
     decoration: ShapeDecoration(
       color: Colours.listTileColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        side: BorderSide(color: Colors.grey.shade300, width: 1.0),
+        borderRadius: BorderRadius.circular(12.0.r),
+        side: BorderSide(color: Colors.grey.shade300, width: 1.0.w),
       ),
     ),
     child: Column(
@@ -18,19 +18,19 @@ Container homeContainer(String title, Icon subtitleIcon) {
         Row(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(11, 11, 11, 0),
+              padding: EdgeInsets.fromLTRB(11.w, 11.h, 11.w, 0.h),
               child: Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                     color: Colours.drawerColor,
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.w700),
               ),
             )
           ],
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(11, 11, 11, 0),
+          padding: EdgeInsets.fromLTRB(11.w, 11.h, 11.w, 0.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

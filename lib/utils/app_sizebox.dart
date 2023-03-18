@@ -2,26 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 SizedBox fixSizedBox10 = SizedBox(
-  height: ScreenUtil().setHeight(10),
+  height: 10.h,
 );
 SizedBox fixSizedBox20 = SizedBox(
-  height: ScreenUtil().setHeight(20),
+  height: 20.h,
 );
 SizedBox fixSizedBox30 = SizedBox(
-  height: ScreenUtil().setHeight(30),
+  height: 30.h,
 );
 SizedBox fixSizedBox40 = SizedBox(
-  height: ScreenUtil().setHeight(40),
+  height: 40.h,
 );
 SizedBox fixSizedBox50 = SizedBox(
-  height: ScreenUtil().setHeight(50),
+  height: 60.h,
 );
-SizedBox fixSizedBox60 = const SizedBox(
-  height: 60,
+SizedBox fixSizedBox60 = SizedBox(
+  height: 60.h,
 );
-SizedBox fixSizedBox70 = const SizedBox(
-  height: 70,
+SizedBox fixSizedBox70 = SizedBox(
+  height: 70.h,
 );
-SizedBox fixSizedBox80 = const SizedBox(
-  height: 80,
+SizedBox fixSizedBox80 = SizedBox(
+  height: 80.h,
 );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/features/OtherScreens/temperature_screen.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
@@ -6,14 +7,14 @@ import 'package:medical_box/utils/drawer_buttons.dart';
 
 Drawer drawer(_context) {
   return Drawer(
-    elevation: 1,
+    elevation: 1.sh,
     backgroundColor: Colours.drawerColor,
     child: SafeArea(
       child: ListView(
         children: [
           fixSizedBox30,
           SizedBox(
-            height: 20,
+            height: 20.h,
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -30,15 +31,15 @@ Drawer drawer(_context) {
             ),
           ),
           fixSizedBox10,
-          const SizedBox(
-            width: 85,
-            height: 46,
+           SizedBox(
+            width: 85.w,
+            height: 46.h,
             child: Placeholder(
               child: Center(
                 child: Text(
                   'LOGO',
                   style: TextStyle(
-                      fontSize: 30,
+                      fontSize: 30.sp,
                       fontWeight: FontWeight.w500,
                       color: Colors.white),
                 ),

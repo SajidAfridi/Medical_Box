@@ -16,7 +16,6 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   final _formkey = GlobalKey<FormState>();
   String error = '';
-
   String email = '';
   String password = '';
 
@@ -26,42 +25,47 @@ class _LogInScreenState extends State<LogInScreen> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colours.whiteBackgroundColor,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Center(
+          SizedBox(
+            height: 114.h,
+          ),
+          Center(
             child: Image(
-              image: AssetImage("assets/images/firstaidIcon.png"),
-              width: 193,
-              height: 100,
+              image: const AssetImage("assets/images/firstaidIcon.png"),
+              width: 190.w,
+              height: 100.h,
             ),
           ),
-          fixSizedBox50,
+          SizedBox(
+            height: 60.h,
+          ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
+            padding: EdgeInsets.fromLTRB(30.w, 5.h, 30.w, 5.h),
             child: Form(
               key: _formkey,
               child: Column(
                 children: [
                   SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
+                    width: 290.w,
+                    height: 50.h,
                     child: TextFormField(
                       onChanged: (val) {
                         setState(() {
                           email = val;
                         });
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Email"),
                     ),
                   ),
-                  fixSizedBox10,
+                  SizedBox(height: 13.h),
                   SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
+                    width: 290.w,
+                    height: 50.h,
                     child: TextFormField(
                       obscureText: true,
                       onChanged: (val) {
@@ -69,42 +73,52 @@ class _LogInScreenState extends State<LogInScreen> {
                           password = val;
                         });
                       },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Password"),
                     ),
                   ),
                   fixSizedBox20,
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'home_screen');
-                    },
-                    style: buttonStyle,
-                    child: const Text(
-                      "Log In",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                  SizedBox(
+                    width: 200.w,
+                    height: 40.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, 'home_screen');
+                      },
+                      style: buttonStyle,
+                      child: const Text(
+                        "Log In",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
                   fixSizedBox10,
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, 'home_screen');
-                    },
-                    style: buttonStyle,
-                    child: const Text(
-                      "Login As Admin",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                  SizedBox(
+                    width: 200.w,
+                    height: 40.h,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(context, 'home_screen');
+                      },
+                      style: buttonStyle,
+                      child: Center(
+                        child: Text(
+                          "Login As Admin",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18.sp,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                  fixSizedBox10,
+                  fixSizedBox20,
                   divider4,
                   fixSizedBox10,
                   OutlinedButton(
@@ -112,22 +126,28 @@ class _LogInScreenState extends State<LogInScreen> {
                       Navigator.pushNamed(context, 'register_screen');
                     },
                     style: outlinedButtonStyle,
-                    child: const Text(
+                    child: Text(
                       "Not Registered?",
                       style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18,
-                        color: Colors.white
-                      ),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18.sp,
+                          color: Colours.themeColor),
                     ),
                   ),
-                  fixSizedBox10,
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      "Forgot Registration?",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400, color: Colors.black),
+                  SizedBox(height: 15.h),
+                  SizedBox(
+                    width: 180.w,
+                    height: 40.h,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Forgot Registration?",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black,
+                            fontSize: 14.sp,
+                        ),
+                      ),
                     ),
                   )
                 ],

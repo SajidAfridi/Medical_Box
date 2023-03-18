@@ -18,19 +18,19 @@ class _MyHomePageState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Container(
-        width: ScreenUtil().setWidth(163),
-        decoration: const BoxDecoration(
+        width: 163.w,
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
-            Radius.circular(15),
+            Radius.circular(15.r),
           ),
         ),
         child: drawer(context),
       ),
       appBar: appBar,
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(20.0.r),
         child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: EdgeInsets.symmetric(vertical: 20.h),
           scrollDirection: Axis.vertical,
           children: [
             InkWell(
