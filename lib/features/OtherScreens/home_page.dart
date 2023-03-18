@@ -24,7 +24,7 @@ class _MyHomePageState extends State<HomeScreen> {
             Radius.circular(15),
           ),
         ),
-        child: drawer,
+        child: drawer(context),
       ),
       appBar: appBar,
       body: Padding(
@@ -34,7 +34,9 @@ class _MyHomePageState extends State<HomeScreen> {
           scrollDirection: Axis.vertical,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, 'users_screen');
+              },
               child: homeContainer(
                 'Users',
                 const Icon(
@@ -46,7 +48,9 @@ class _MyHomePageState extends State<HomeScreen> {
             ),
             fixSizedBox10,
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, 'map_screen');
+              },
               child: homeContainer(
                 'Map',
                 const Icon(
@@ -58,7 +62,9 @@ class _MyHomePageState extends State<HomeScreen> {
             ),
             fixSizedBox10,
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, 'temperature_screen');
+              },
               child: homeContainer(
                 'Temperature',
                 const Icon(

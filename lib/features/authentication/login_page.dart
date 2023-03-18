@@ -78,7 +78,9 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                   fixSizedBox20,
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, 'home_screen');
+                    },
                     style: buttonStyle,
                     child: const Text(
                       "Log In",
@@ -89,10 +91,10 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   fixSizedBox10,
-                  divider4,
-                  fixSizedBox10,
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, 'home_screen');
+                    },
                     style: buttonStyle,
                     child: const Text(
                       "Login As Admin",
@@ -102,14 +104,20 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: buttonStyle,
+                  fixSizedBox10,
+                  divider4,
+                  fixSizedBox10,
+                  OutlinedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'register_screen');
+                    },
+                    style: outlinedButtonStyle,
                     child: const Text(
-                      "Login As User",
+                      "Not Registered?",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 18,
+                        color: Colors.white
                       ),
                     ),
                   ),

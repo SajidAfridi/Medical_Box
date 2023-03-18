@@ -32,11 +32,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Center(
+          Center(
             child: Image(
-              image: AssetImage("assets/images/firstaidIcon.png"),
-              width: 180,
-              height: 91,
+              image: const AssetImage("assets/images/firstaidIcon.png"),
+              width: ScreenUtil().setWidth(180),
+              height: ScreenUtil().setHeight(91),
             ),
           ),
           fixSizedBox40,
@@ -169,7 +169,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 fixSizedBox20,
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'login_screen');
+                  },
                   style: buttonStyle,
                   child: const Text(
                     "Register",

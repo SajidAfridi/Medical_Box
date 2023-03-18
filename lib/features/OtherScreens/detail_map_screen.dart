@@ -5,6 +5,20 @@ import 'package:medical_box/widgets/app_bar.dart';
 import '../../widgets/drawer.dart';
 import '../../widgets/header_of_all_screens.dart';
 
+class DetailMap extends StatefulWidget {
+  const DetailMap({Key? key}) : super(key: key);
+
+  @override
+  State<DetailMap> createState() => _DetailMapState();
+}
+
+class _DetailMapState extends State<DetailMap> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
 
@@ -38,7 +52,7 @@ class _MapScreenState extends State<MapScreen> {
             const Icon(
               Icons.location_on_outlined,
               color: Colours.drawerColor,
-              size: 22,
+              size: 17,
             ),
           ),
           Expanded(
