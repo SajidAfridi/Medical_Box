@@ -18,12 +18,12 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: SizedBox(
-        width: ScreenUtil().setWidth(163),
+        width: 163.w,
         child: drawer(context),
       ),
       appBar: appBar,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(17, 4, 13, 5),
+        padding: EdgeInsets.fromLTRB(17.w, 4.h, 13.w, 5.h),
         child: Column(children: [
           header(
             context,
@@ -42,33 +42,38 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                 return Column(
                   children: [
                     Card(
-                      elevation: 0,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 2.0, vertical: 1.0),
+                      elevation: 0.sh,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: 2.0.w, vertical: 1.0.h),
                       child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12.0, vertical: 8.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 12.0.w, vertical: 8.0.h),
                         tileColor: Colours.listTileColor,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
+                          borderRadius: BorderRadius.circular(12.0.r),
                           side: BorderSide(
-                              color: Colors.grey.shade300, width: 1.0),
+                              color: Colors.grey.shade300, width: 1.0.w),
                         ),
-                        title: const Text(
+                        title: Text(
                           'Item title',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 18.0,
+                            fontSize: 18.0.sp,
                           ),
                         ),
-                        subtitle: const Text(
+                        subtitle: Text(
                           'Item subtitle',
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 16.0.sp,
                           ),
                         ),
-                        isThreeLine: true,
-                        trailing: const Icon(Icons.arrow_forward),
+                        isThreeLine: false,
+                        trailing: IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'details_temperature');
+                          },
+                          icon: Icon(Icons.arrow_forward),
+                        ),
                         onTap: () {
                           Navigator.pushNamed(context, 'details_temperature');
                         },

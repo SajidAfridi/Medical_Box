@@ -7,6 +7,12 @@ import 'package:medical_box/utils/drawer_buttons.dart';
 
 Drawer drawer(_context) {
   return Drawer(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topRight:  Radius.circular(60.r),
+        bottomRight: Radius.circular(80.r),
+      ),
+    ),
     elevation: 1.sh,
     backgroundColor: Colours.drawerColor,
     child: SafeArea(
@@ -14,7 +20,7 @@ Drawer drawer(_context) {
         children: [
           fixSizedBox30,
           SizedBox(
-            height: 20.h,
+            height: 30.h,
             child: Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -31,7 +37,7 @@ Drawer drawer(_context) {
             ),
           ),
           fixSizedBox10,
-           SizedBox(
+          SizedBox(
             width: 85.w,
             height: 46.h,
             child: Placeholder(
@@ -48,7 +54,7 @@ Drawer drawer(_context) {
           ),
           fixSizedBox40,
           DrawerButtons(
-            text: 'Box',
+            text: 'Home',
             onPressed: () {
               Navigator.pop(_context);
             },

@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/features/authentication/login_page.dart';
 import 'package:medical_box/features/authentication/register_page.dart';
 import 'features/OtherScreens/detail_temperature_screen.dart';
-import 'features/OtherScreens/home_page.dart';
+import 'features/OtherScreens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
