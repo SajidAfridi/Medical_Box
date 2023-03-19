@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medical_box/my_icons_icons.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/widgets/app_bar.dart';
 import 'package:medical_box/widgets/drawer.dart';

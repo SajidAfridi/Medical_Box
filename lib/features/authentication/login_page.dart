@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medical_box/core/AuthServices/auth_services.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/widgets/button_style.dart';
 import 'package:medical_box/utils/dividers.dart';
 import 'package:medical_box/widgets/input_decoration.dart';
+import 'package:provider/provider.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -15,9 +17,9 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   final _formkey = GlobalKey<FormState>();
-  String error = '';
-  String email = '';
-  String password = '';
+
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,11 +52,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     width: 290.w,
                     height: 50.h,
                     child: TextFormField(
-                      onChanged: (val) {
-                        setState(() {
-                          email = val;
-                        });
-                      },
+                      controller: email,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16.sp,
@@ -68,11 +66,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     height: 50.h,
                     child: TextFormField(
                       obscureText: true,
-                      onChanged: (val) {
-                        setState(() {
-                          password = val;
-                        });
-                      },
+                      controller: password,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16.sp,
@@ -86,6 +80,10 @@ class _LogInScreenState extends State<LogInScreen> {
                     height: 40.h,
                     child: ElevatedButton(
                       onPressed: () {
+                        // context.read<AuthenticationService>().signIn(
+                        //     email: email.text.trim(),
+                        //     password: password.text.trim(),
+                        // );
                         Navigator.pushReplacementNamed(context, 'home_screen');
                       },
                       style: buttonStyle,
@@ -143,9 +141,9 @@ class _LogInScreenState extends State<LogInScreen> {
                       child: Text(
                         "Forgot Registration?",
                         style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
-                            fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ),

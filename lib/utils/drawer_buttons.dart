@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medical_box/core/AuthServices/auth_services.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/utils/dividers.dart';
+import 'package:provider/provider.dart';
 
 class DrawerButtons extends StatefulWidget {
   final String text;
@@ -32,6 +34,7 @@ class _DrawerButtonsState extends State<DrawerButtons> {
           Navigator.pushNamed(context, 'temperature_screen');
         }
         else if(widget.text == 'SignOut'){
+          // context.read<AuthenticationService>().signOut();
           Navigator.pushReplacementNamed(context, 'login_screen');
         }
       },
