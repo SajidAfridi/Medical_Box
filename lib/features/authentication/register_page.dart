@@ -29,139 +29,144 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colours.whiteBackgroundColor,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Image(
-              image: const AssetImage("assets/images/firstaidIcon.png"),
-              width: ScreenUtil().setWidth(180),
-              height: ScreenUtil().setHeight(91),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 114.h,
             ),
-          ),
-          fixSizedBox40,
-          Form(
-            key: _formkey,
-            child: Column(
-              children: [
-                SizedBox(
-                  width: ScreenUtil().setWidth(290),
-                  height: ScreenUtil().setHeight(50),
-                  child: TextFormField(
-                    controller: box_id,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: inputDecoration("Box ID"),
-                  ),
-                ),
-                fixSizedBox10,
-                SizedBox(
-                  width: ScreenUtil().setWidth(290),
-                  height: ScreenUtil().setHeight(50),
-                  child: TextFormField(
-                    obscureText: false,
-                    controller: admin_id,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: inputDecoration("Admin ID"),
-                  ),
-                ),
-                fixSizedBox10,
-                SizedBox(
-                  width: ScreenUtil().setWidth(290),
-                  height: ScreenUtil().setHeight(50),
-                  child: TextFormField(
-                    obscureText: false,
-                    controller: team_leader_email,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: inputDecoration("Team Leader Email"),
-                  ),
-                ),
-                fixSizedBox10,
-                SizedBox(
-                  width: ScreenUtil().setWidth(290),
-                  height: ScreenUtil().setHeight(50),
-                  child: TextFormField(
-                    obscureText: false,
-                    controller: contact_number,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: inputDecoration("Contact Number"),
-                  ),
-                ),
-                fixSizedBox10,
-                SizedBox(
-                  width: ScreenUtil().setWidth(290),
-                  height: ScreenUtil().setHeight(50),
-                  child: TextFormField(
-                    controller: team_id,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: inputDecoration("Team ID"),
-                  ),
-                ),
-                fixSizedBox10,
-                SizedBox(
-                  width: ScreenUtil().setWidth(290),
-                  height: ScreenUtil().setHeight(50),
-                  child: TextFormField(
-                    obscureText: true,
-                    controller: password,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: inputDecoration("Password"),
-                  ),
-                ),
-                fixSizedBox10,
-                SizedBox(
-                  width: ScreenUtil().setWidth(290),
-                  height: ScreenUtil().setHeight(50),
-                  child: TextFormField(
-                    obscureText: true,
-                    controller: confirm_password,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                    ),
-                    decoration: inputDecoration("Confirm Password"),
-                  ),
-                ),
-                fixSizedBox20,
-                ElevatedButton(
-                  onPressed: () {
-                    // context.read<AuthenticationService>().signUp(
-                    //     email: box_id.text.trim(),
-                    //     password: password.text.trim());
-                    Navigator.pushNamed(context, 'login_screen');
-                  },
-                  style: buttonStyle,
-                  child: const Text(
-                    "Register",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-              ],
+            Center(
+              child: Image(
+                image: const AssetImage("assets/images/firstaidIcon.png"),
+                width: ScreenUtil().setWidth(180),
+                height: ScreenUtil().setHeight(91),
+              ),
             ),
-          ),
-        ],
+            fixSizedBox40,
+            Form(
+              key: _formkey,
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 290.w,
+                    height: 50.h,
+                    child: TextFormField(
+                      controller: box_id,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16.sp,
+                      ),
+                      decoration: inputDecoration("Box ID"),
+                    ),
+                  ),
+                  fixSizedBox10,
+                  SizedBox(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      obscureText: false,
+                      controller: admin_id,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      decoration: inputDecoration("Admin ID"),
+                    ),
+                  ),
+                  fixSizedBox10,
+                  SizedBox(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      obscureText: false,
+                      controller: team_leader_email,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      decoration: inputDecoration("Team Leader Email"),
+                    ),
+                  ),
+                  fixSizedBox10,
+                  SizedBox(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      obscureText: false,
+                      controller: contact_number,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      decoration: inputDecoration("Contact Number"),
+                    ),
+                  ),
+                  fixSizedBox10,
+                  SizedBox(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      controller: team_id,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      decoration: inputDecoration("Team ID"),
+                    ),
+                  ),
+                  fixSizedBox10,
+                  SizedBox(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: password,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      decoration: inputDecoration("Password"),
+                    ),
+                  ),
+                  fixSizedBox10,
+                  SizedBox(
+                    width: ScreenUtil().setWidth(290),
+                    height: ScreenUtil().setHeight(50),
+                    child: TextFormField(
+                      obscureText: true,
+                      controller: confirm_password,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                      decoration: inputDecoration("Confirm Password"),
+                    ),
+                  ),
+                  fixSizedBox20,
+                  ElevatedButton(
+                    onPressed: () {
+                      // context.read<AuthenticationService>().signUp(
+                      //     email: box_id.text.trim(),
+                      //     password: password.text.trim());
+                      Navigator.pushNamed(context, 'login_screen');
+                    },
+                    style: buttonStyle,
+                    child: const Text(
+                      "Register",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

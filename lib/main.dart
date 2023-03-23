@@ -1,14 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:medical_box/features/OtherScreens/detail_map_screen.dart';
 import 'package:medical_box/features/OtherScreens/maps_screen.dart';
 import 'package:medical_box/features/OtherScreens/temperature_screen.dart';
 import 'package:medical_box/features/OtherScreens/users_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/features/authentication/login_page.dart';
 import 'package:medical_box/features/authentication/register_page.dart';
-import 'package:provider/provider.dart';
-import 'core/AuthServices/auth_services.dart';
 import 'features/OtherScreens/detail_temperature_screen.dart';
 import 'features/OtherScreens/home_screen.dart';
 
@@ -40,26 +38,27 @@ class MyApp extends StatelessWidget {
               'register_screen': (_) => const RegisterScreen(),
               'home_screen': (_) => const HomeScreen(),
               'map_screen': (_) => const MapScreen(),
+              'details_map': (_) => const DetailMap(),
               'users_screen': (_) => const UserScreen(),
               'temperature_screen': (_) => const TemperatureScreen(),
               'login_screen': (_) => const LogInScreen(),
               'details_temperature': (_) => const DetailTemperature(),
             },
-            home: AuthenticationWrapper(),
+            home: const LogInScreen(),
           );
         },
     );
   }
 }
-class AuthenticationWrapper extends StatefulWidget {
-  const AuthenticationWrapper({Key? key}) : super(key: key);
-
-  @override
-  State<AuthenticationWrapper> createState() => _AuthenticationWrapperState();
-}
-
-class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
-  @override
-  Widget build(BuildContext context) {
-    return LogInScreen();
-}}
+// class AuthenticationWrapper extends StatefulWidget {
+//   const AuthenticationWrapper({Key? key}) : super(key: key);
+//
+//   @override
+//   State<AuthenticationWrapper> createState() => _AuthenticationWrapperState();
+// }
+//
+// class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const LogInScreen();
+// }}
