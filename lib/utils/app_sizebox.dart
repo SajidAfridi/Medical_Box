@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+SizedBox fixSizedBox5 = SizedBox(
+  height: 5.h,
+);
 SizedBox fixSizedBox10 = SizedBox(
   height: 10.h,
+);
+SizedBox fixSizedBox15 = SizedBox(
+  height: 15.h,
 );
 SizedBox fixSizedBox20 = SizedBox(
   height: 20.h,

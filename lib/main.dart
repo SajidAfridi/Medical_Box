@@ -12,6 +12,7 @@ import 'features/OtherScreens/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -50,15 +51,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// class AuthenticationWrapper extends StatefulWidget {
-//   const AuthenticationWrapper({Key? key}) : super(key: key);
-//
-//   @override
-//   State<AuthenticationWrapper> createState() => _AuthenticationWrapperState();
-// }
-//
-// class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const LogInScreen();
-// }}

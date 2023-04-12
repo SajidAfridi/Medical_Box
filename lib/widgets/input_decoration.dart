@@ -8,7 +8,7 @@ InputDecoration inputDecoration(String hintText) {
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(10.0.r)),
       borderSide: BorderSide(
-        width: 2.w,
+        width: 1.w,
         color: Colours.borderColor,
       ),
     ),
@@ -17,7 +17,7 @@ InputDecoration inputDecoration(String hintText) {
       //borderRadius: BorderRadius.all(Radius.circular(10.0.r)),
       borderSide: BorderSide(
         color: Colors.red,
-        width: 2.w, // Set the border width
+        width: 1.w, // Set the border width
       ),
     ),
     enabledBorder:OutlineInputBorder(

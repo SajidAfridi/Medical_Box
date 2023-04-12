@@ -19,7 +19,7 @@ class _LogInScreenState extends State<LogInScreen> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  bool logginPressed = false;
+  bool loginPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +52,8 @@ class _LogInScreenState extends State<LogInScreen> {
                     SingleChildScrollView(
                       child: SizedBox(
                         width: 290.w,
-                        height: logginPressed? 70.h: 50.h,
+                        height: loginPressed ? 70.h : 50.h,
                         child: TextFormField(
-                          // autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: email,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
@@ -77,7 +76,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     SizedBox(height: 13.h),
                     SizedBox(
                       width: 290.w,
-                      height: logginPressed? 70.h: 50.h,
+                      height: loginPressed ? 70.h : 50.h,
                       child: TextFormField(
                         obscureText: true,
                         controller: password,
@@ -105,10 +104,10 @@ class _LogInScreenState extends State<LogInScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            logginPressed = true;
+                            loginPressed = true;
                             if (_formkey.currentState!.validate()) {
                               Navigator.pushReplacementNamed(
-                                  context, 'home_screen');
+                                  context, 'users_screen');
                             }
                             return;
                           });
@@ -124,60 +123,38 @@ class _LogInScreenState extends State<LogInScreen> {
                       ),
                     ),
                     fixSizedBox10,
-                    SizedBox(
-                      width: 200.w,
-                      height: 40.h,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            // if (_formkey.currentState!.validate()) {
-                            //
-                            // }
-                            // else {
-                            //   logginPressed = true;
-                            // }
-                            // return;
-                            Navigator.pushReplacementNamed(
-                                context, 'home_screen');
-
-                          });
-                        },
-                        style: buttonStyle,
-                        child: Center(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Don\'t have an account?'),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'register_screen');
+                          },
+                          // style: outlinedButtonStyle,
                           child: Text(
-                            "Login As Admin",
+                            "Sign Up",
                             style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 18.sp,
-                            ),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18.sp,
+                                color: Colours.themeColor),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                    fixSizedBox20,
-                    divider4,
+                    SizedBox(height: 5.h),
+                    SizedBox(
+                      width: 194.w,
+                      child: divider4,
+                    ),
                     fixSizedBox10,
-                    OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, 'register_screen');
-                      },
-                      style: outlinedButtonStyle,
-                      child: Text(
-                        "Not Registered?",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18.sp,
-                            color: Colours.themeColor),
-                      ),
-                    ),
-                    SizedBox(height: 15.h),
                     SizedBox(
                       width: 180.w,
                       height: 40.h,
                       child: TextButton(
                         onPressed: () {},
                         child: Text(
-                          "Forgot Registration?",
+                          "Forgot Password?",
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             color: Colors.black,
