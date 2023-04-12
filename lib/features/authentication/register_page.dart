@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:medical_box/core/AuthServices/auth_services.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/widgets/button_style.dart';
 import 'package:medical_box/widgets/input_decoration.dart';
-import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,16 +13,12 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _formkey = GlobalKey<FormState>();
-  String error = '';
+  final _formKey = GlobalKey<FormState>();
 
-  TextEditingController box_id = TextEditingController();
-  TextEditingController admin_id = TextEditingController();
-  TextEditingController team_leader_email = TextEditingController();
-  TextEditingController contact_number = TextEditingController();
-  TextEditingController team_id = TextEditingController();
+  TextEditingController adminID = TextEditingController();
+  TextEditingController adminEmail = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController confirm_password = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,31 +41,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             fixSizedBox40,
             Form(
-              key: _formkey,
+              key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(
-                    width: 290.w,
-                    height: 50.h,
-                    child: TextFormField(
-                      controller: box_id,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16.sp,
-                      ),
-                      decoration: inputDecoration("Box ID"),
-                    ),
-                  ),
-                  fixSizedBox10,
                   SizedBox(
                     width: ScreenUtil().setWidth(290),
                     height: ScreenUtil().setHeight(50),
                     child: TextFormField(
                       obscureText: false,
-                      controller: admin_id,
-                      style: const TextStyle(
+                      controller: adminID,
+                      style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Admin ID"),
                     ),
@@ -81,40 +62,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: ScreenUtil().setWidth(290),
                     height: ScreenUtil().setHeight(50),
                     child: TextFormField(
-                      obscureText: false,
-                      controller: team_leader_email,
-                      style: const TextStyle(
+                      controller: adminEmail,
+                      style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
-                      decoration: inputDecoration("Team Leader Email"),
-                    ),
-                  ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      obscureText: false,
-                      controller: contact_number,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: inputDecoration("Contact Number"),
-                    ),
-                  ),
-                  fixSizedBox10,
-                  SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
-                    child: TextFormField(
-                      controller: team_id,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                      ),
-                      decoration: inputDecoration("Team ID"),
+                      decoration: inputDecoration("Admin Email"),
                     ),
                   ),
                   fixSizedBox10,
@@ -124,9 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: TextFormField(
                       obscureText: true,
                       controller: password,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Password"),
                     ),
@@ -137,10 +90,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: ScreenUtil().setHeight(50),
                     child: TextFormField(
                       obscureText: true,
-                      controller: confirm_password,
-                      style: const TextStyle(
+                      controller: confirmPassword,
+                      style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
+                        fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Confirm Password"),
                     ),
@@ -154,11 +107,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Navigator.pushNamed(context, 'login_screen');
                     },
                     style: buttonStyle,
-                    child: const Text(
+                    child: Text(
                       "Register",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: 18.sp,
                       ),
                     ),
                   ),

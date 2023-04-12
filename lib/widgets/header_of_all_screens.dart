@@ -2,28 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
 
-Row header(context, String text, Icon icons) {
-  return Row(
-    children: [
-      IconButton(
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        icon: const Icon(
-          Icons.arrow_back,
-          color: Colours.themeColor,
-          size: 26,
+Container header(String text, Icon icons) {
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 5.0.h),
+    width: 90.w,
+    height: 40.h,
+    child: Row(
+      children: [
+        Text(
+          text,
+          style: TextStyle(
+              fontSize: 20.sp,
+              color: Colours.themeColor,
+              fontWeight: FontWeight.w800),
         ),
-      ),
-      Text(
-        text,
-        style: TextStyle(
-            fontSize: 20.sp,
-            color: Colours.themeColor,
-            fontWeight: FontWeight.w400),
-      ),
-      SizedBox(width: 6.w),
-      icons,
-    ],
+        SizedBox(width: 6.w),
+        icons,
+      ],
+    ),
   );
 }

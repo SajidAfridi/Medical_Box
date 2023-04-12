@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
-import 'package:medical_box/utils/app_sizebox.dart';
-import 'package:medical_box/utils/dividers.dart';
 import 'package:medical_box/widgets/app_bar.dart';
-import 'package:medical_box/widgets/drawer.dart';
 import 'package:medical_box/widgets/header_of_all_screens.dart';
-import 'package:medical_box/widgets/user_list_tiles.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
@@ -16,16 +10,13 @@ class UserScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SizedBox(
-        width: ScreenUtil().setWidth(163),
-        child: drawer(context),
-      ),
       appBar: appBar,
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(17, 4, 13, 5),
-        child: Column(children: [
+        padding: EdgeInsets.fromLTRB(17.h, 4.w, 13.h, 5.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
           header(
-            context,
             'Users',
             const Icon(
               Icons.person_outline_outlined,
@@ -33,7 +24,6 @@ class UserScreen extends StatelessWidget {
               size: 22,
             ),
           ),
-          const Divider(),
           Expanded(
             child: ListView.builder(
               itemCount: 10, // replace with the length of your data list

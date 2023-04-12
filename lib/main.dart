@@ -7,9 +7,6 @@ import 'package:medical_box/features/OtherScreens/users_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/features/authentication/login_page.dart';
 import 'package:medical_box/features/authentication/register_page.dart';
-import 'features/OtherScreens/detail_temperature_screen.dart';
-import 'features/OtherScreens/home_screen.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -37,13 +34,11 @@ class MyApp extends StatelessWidget {
             ),
             routes: {
               'register_screen': (_) => const RegisterScreen(),
-              'home_screen': (_) => const HomeScreen(),
               'map_screen': (_) => const MapScreen(),
               'details_map': (_) => const DetailMap(),
               'users_screen': (_) => const UserScreen(),
               'temperature_screen': (_) => const TemperatureScreen(),
               'login_screen': (_) => const LogInScreen(),
-              'details_temperature': (_) => const DetailTemperature(),
             },
             home: const LogInScreen(),
           );

@@ -105,12 +105,12 @@ class _LogInScreenState extends State<LogInScreen> {
                         onPressed: () {
                           setState(() {
                             loginPressed = true;
-                            if (_formkey.currentState!.validate()) {
-                              Navigator.pushReplacementNamed(
-                                  context, 'users_screen');
-                            }
-                            return;
                           });
+                          if (_formkey.currentState!.validate()) {
+                            Navigator.pushReplacementNamed(
+                                context, 'users_screen');
+                          }
+                          return;
                         },
                         style: buttonStyle,
                         child: Text(
@@ -147,7 +147,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       width: 194.w,
                       child: divider4,
                     ),
-                    fixSizedBox10,
+                    fixSizedBox5,
                     SizedBox(
                       width: 180.w,
                       height: 40.h,

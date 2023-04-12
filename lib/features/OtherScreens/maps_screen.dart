@@ -1,12 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:medical_box/features/OtherScreens/detail_map_screen.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/widgets/app_bar.dart';
-import '../../widgets/drawer.dart';
 import '../../widgets/header_of_all_screens.dart';
 import '../../widgets/map_text_styles.dart';
 
@@ -43,15 +40,10 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SizedBox(
-        width: ScreenUtil().setWidth(163),
-        child: drawer(context),
-      ),
       appBar: appBar,
       body: Column(
         children: [
           header(
-            context,
             'Map',
             const Icon(
               Icons.location_on_outlined,

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/widgets/header_of_all_screens.dart';
-
 import '../../utils/app_colors.dart';
 import '../../widgets/app_bar.dart';
-import '../../widgets/drawer.dart';
 
 class TemperatureScreen extends StatefulWidget {
   const TemperatureScreen({Key? key}) : super(key: key);
@@ -17,16 +15,11 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SizedBox(
-        width: 163.w,
-        child: drawer(context),
-      ),
       appBar: appBar,
       body: Padding(
         padding: EdgeInsets.fromLTRB(17.w, 4.h, 13.w, 5.h),
         child: Column(children: [
           header(
-            context,
             "Temperature",
             const Icon(
               Icons.scale,
@@ -72,7 +65,7 @@ class _TemperatureScreenState extends State<TemperatureScreen> {
                           onPressed: () {
                             Navigator.pushNamed(context, 'details_temperature');
                           },
-                          icon: Icon(Icons.arrow_forward),
+                          icon: const Icon(Icons.arrow_forward),
                         ),
                         onTap: () {
                           Navigator.pushNamed(context, 'details_temperature');

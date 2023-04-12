@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/widgets/app_bar.dart';
-import '../../widgets/drawer.dart';
 import '../../widgets/header_of_all_screens.dart';
 import '../../widgets/map_text_styles.dart';
 
@@ -17,15 +16,10 @@ class _DetailMapState extends State<DetailMap> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: SizedBox(
-        width: ScreenUtil().setWidth(163),
-        child: drawer(context),
-      ),
       appBar: appBar,
       body: Column(
         children: [
           header(
-            context,
             'Map',
             const Icon(
               Icons.location_on_outlined,
@@ -61,7 +55,7 @@ class _DetailMapState extends State<DetailMap> {
                           Text('Name: ',style: textStyle,),
                           Text('Location: ',style: textStyle,),
                           Text('Box ID: ',style: textStyle,),
-                          Icon(Icons.access_alarm_sharp,color: Colors.white,)
+                          const Icon(Icons.access_alarm_sharp,color: Colors.white,)
                         ],
                       ),
                     )
