@@ -5,7 +5,7 @@ import 'package:medical_box/utils/app_colors.dart';
 Container header(String text, Icon icons) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 5.0.h),
-    width: 90.w,
+    width: 200.w,
     height: 40.h,
     child: Row(
       children: [

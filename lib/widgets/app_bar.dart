@@ -6,8 +6,8 @@ final appBar = AppBar(
   elevation: 0.0,
   centerTitle: true,
   title: const Text(
-    'Medical Box',
-    style: TextStyle(color: Colours.themeColor),
+    'Welcome',
+    style: TextStyle(color: Colours.themeColor, fontSize: 20,fontWeight: FontWeight.w800),
   ),
   iconTheme: const IconThemeData(color: Colours.drawerColor),
 );

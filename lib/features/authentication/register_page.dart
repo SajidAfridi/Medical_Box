@@ -20,6 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 
+  bool loginPressed = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +46,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Column(
                 children: [
                   SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
+                    width: 290.w,
+                    height: loginPressed ? 70.h : 50.h,
                     child: TextFormField(
                       obscureText: false,
                       controller: adminID,
@@ -55,12 +56,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Admin ID"),
+                      validator: (value) {
+                        final RegExp boxIDRegExp =
+                        RegExp(r'^(?=.*[A-Za-z\d])[A-Za-z\d]{6,}$');
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a Box ID';
+                        } else if (!boxIDRegExp.hasMatch(value)) {
+                          return 'Box ID must be at least 6 characters long';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   fixSizedBox10,
                   SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
+                    width: 290.w,
+                    height: loginPressed ? 70.h : 50.h,
                     child: TextFormField(
                       controller: adminEmail,
                       style: TextStyle(
@@ -68,12 +79,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Admin Email"),
+                      validator: (value) {
+                        final RegExp emailRegExp =
+                        RegExp(r'^[\w-]+@([\w-]+\.)+[\w-]{2,4}$');
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an email address';
+                        } else if (!emailRegExp.hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   fixSizedBox10,
                   SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
+                    width: 290.w,
+                    height: loginPressed ? 70.h : 50.h,
                     child: TextFormField(
                       obscureText: true,
                       controller: password,
@@ -82,12 +103,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Password"),
+                      validator: (value) {
+                        final RegExp passwordRegExp =
+                        RegExp(r'^(?=.*[A-Za-z\d])[A-Za-z\d]{6,}$');
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a password';
+                        } else if (!passwordRegExp.hasMatch(value)) {
+                          return 'Password must be at least 6 characters long';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   fixSizedBox10,
                   SizedBox(
-                    width: ScreenUtil().setWidth(290),
-                    height: ScreenUtil().setHeight(50),
+                    width: 290.w,
+                    height: loginPressed ? 70.h : 50.h,
                     child: TextFormField(
                       obscureText: true,
                       controller: confirmPassword,
@@ -96,15 +127,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         fontSize: 16.sp,
                       ),
                       decoration: inputDecoration("Confirm Password"),
+                      validator: (value){
+                        if(value != password.text){
+                          return 'The Password Doesn\'t match';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   fixSizedBox20,
                   ElevatedButton(
                     onPressed: () {
-                      // context.read<AuthenticationService>().signUp(
-                      //     email: box_id.text.trim(),
-                      //     password: password.text.trim());
-                      Navigator.pushNamed(context, 'login_screen');
+                      setState(() {
+                        loginPressed = true;
+                      });
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushReplacementNamed(
+                            context, 'login_screen');
+                      }
+                      return;
                     },
                     style: buttonStyle,
                     child: Text(

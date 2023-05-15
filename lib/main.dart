@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_box/features/OtherScreens/detail_map_screen.dart';
 import 'package:medical_box/features/OtherScreens/maps_screen.dart';
-import 'package:medical_box/features/OtherScreens/temperature_screen.dart';
+import 'package:medical_box/features/OtherScreens/profile_screen.dart';
 import 'package:medical_box/features/OtherScreens/users_screen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/features/authentication/login_page.dart';
@@ -34,10 +33,9 @@ class MyApp extends StatelessWidget {
             ),
             routes: {
               'register_screen': (_) => const RegisterScreen(),
+              'profile_screen': (_) => const ProfileScreen(),
               'map_screen': (_) => const MapScreen(),
-              'details_map': (_) => const DetailMap(),
               'users_screen': (_) => const UserScreen(),
-              'temperature_screen': (_) => const TemperatureScreen(),
               'login_screen': (_) => const LogInScreen(),
             },
             home: const LogInScreen(),

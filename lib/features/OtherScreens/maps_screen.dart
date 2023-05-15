@@ -2,10 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:medical_box/utils/app_colors.dart';
-import 'package:medical_box/widgets/app_bar.dart';
+import '../../utils/app_colors.dart';
+import '../../widgets/app_bar.dart';
 import '../../widgets/header_of_all_screens.dart';
-import '../../widgets/map_text_styles.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -15,9 +14,6 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  List<String> items = <String>['User 1', 'User 2', 'User 3'];
-  String selectedOption = ' ';
-
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -32,23 +28,21 @@ class _MapScreenState extends State<MapScreen> {
       zoom: 18.151926040649414);
 
   @override
-  void initState() {
-    super.initState();
-    selectedOption = items[0];
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar,
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          header(
-            'Map',
-            const Icon(
-              Icons.location_on_outlined,
-              color: Colours.drawerColor,
-              size: 22,
+          Padding(
+            padding: EdgeInsets.fromLTRB(17.h, 4.w, 13.h, 5.w),
+            child: header(
+              'Your Location',
+              const Icon(
+                Icons.location_on_outlined,
+                color: Colours.drawerColor,
+                size: 22,
+              ),
             ),
           ),
           Expanded(
@@ -59,7 +53,7 @@ class _MapScreenState extends State<MapScreen> {
                   height: double.infinity,
                   width: double.infinity,
                   child: GoogleMap(
-                    mapType: MapType.hybrid,
+                    mapType: MapType.normal,
                     initialCameraPosition: _kGooglePlex,
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
@@ -67,10 +61,11 @@ class _MapScreenState extends State<MapScreen> {
                   ),
                 ),
                 Positioned(
-                  left: 35.w,
+                  left: 70.w,
+                  bottom: 10.h,
                   child: Container(
-                    width: 109.w,
-                    height: 38.h,
+                    width: 200.w,
+                    height: 150.h,
                     padding: EdgeInsets.all(8.0.r),
                     decoration: ShapeDecoration(
                       color: Colours.themeColor,
@@ -78,30 +73,18 @@ class _MapScreenState extends State<MapScreen> {
                         borderRadius: BorderRadius.circular(10.0.r),
                       ),
                     ),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      iconDisabledColor: Colors.white,
-                      iconEnabledColor: Colors.white,
-                      value: selectedOption,
-                      style: textStyle,
-                      hint: Text(
-                        selectedOption,
-                        style: textStyle,
+                    child: Container(
+                      margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 5.h),
+                      height: 80.h,
+                      width: 250.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5.r),
+                        ),
+                        image: const DecorationImage(
+                            image: AssetImage("assets/images/temp.png"),
+                            fit: BoxFit.fill),
                       ),
-                      dropdownColor: Colors.green,
-                      onChanged: (value) {
-                        setState(() {
-                          Navigator.pushNamed(context, 'details_map');
-                          selectedOption = value!;
-                        });
-                      },
-                      items: items.map((String option) {
-                        return DropdownMenuItem<String>(
-                          alignment: AlignmentDirectional.bottomCenter,
-                          value: option,
-                          child: Text(option),
-                        );
-                      }).toList(),
                     ),
                   ),
                 )
@@ -110,16 +93,16 @@ class _MapScreenState extends State<MapScreen> {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _goToTheLake,
-        label: const Text('CECOS University'),
-        icon: const Icon(Icons.directions_boat),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: _goToTheLake,
+      //   label: const Text('CECOS University'),
+      //   icon: const Icon(Icons.directions_boat),
+      // ),
     );
   }
 
-  Future<void> _goToTheLake() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(_kCECOS));
-  }
+  // Future<void> _goToTheLake() async {
+  //   final GoogleMapController controller = await _controller.future;
+  //   controller.animateCamera(CameraUpdate.newCameraPosition(_kCECOS));
+  // }
 }
