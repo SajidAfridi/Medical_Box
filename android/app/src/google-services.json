@@ -1,34 +1,86 @@
 {
   "project_info": {
-    "project_number": "128019095116",
-    "project_id": "medical-box-project-fyp",
-    "storage_bucket": "medical-box-project-fyp.appspot.com"
+    "project_number": "808422468031",
+    "firebase_url": "https://esp32-8db74-default-rtdb.firebaseio.com",
+    "project_id": "esp32-8db74",
+    "storage_bucket": "esp32-8db74.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:128019095116:android:fc2e3122bbc8b66d58dee9",
+        "mobilesdk_app_id": "1:808422468031:android:fcd5aac5c7af7a6714990a",
         "android_client_info": {
           "package_name": "com.example.medical_box"
         }
       },
       "oauth_client": [
         {
-          "client_id": "128019095116-89tig04lprmotjfootdc22frdkv78ri9.apps.googleusercontent.com",
+          "client_id": "808422468031-9pf2v5p37jmutp6qltki723i1od0hdu6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBsOmrkWDvqwUhERmPOyyuh0R-ODg0dvaQ"
+          "current_key": "AIzaSyB8K4FlyzvrWTXw5xMrXeDrFGvnDPQOCkg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "128019095116-89tig04lprmotjfootdc22frdkv78ri9.apps.googleusercontent.com",
+              "client_id": "808422468031-9pf2v5p37jmutp6qltki723i1od0hdu6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "808422468031-buk922b8c7e12j3jmh59u14rnj6qm207.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.madicalBox"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808422468031:android:6083959e512edbd014990a",
+        "android_client_info": {
+          "package_name": "com.medical_box_users"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808422468031-eo7u8rdb8h52lt9kira6i8ga0t04i1bl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.medical_box_users",
+            "certificate_hash": "ed44c3e34872fce392f806c55b6e4f1bd707d084"
+          }
+        },
+        {
+          "client_id": "808422468031-9pf2v5p37jmutp6qltki723i1od0hdu6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8K4FlyzvrWTXw5xMrXeDrFGvnDPQOCkg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808422468031-9pf2v5p37jmutp6qltki723i1od0hdu6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "808422468031-buk922b8c7e12j3jmh59u14rnj6qm207.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.madicalBox"
+              }
             }
           ]
         }

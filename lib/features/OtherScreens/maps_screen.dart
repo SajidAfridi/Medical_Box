@@ -30,7 +30,21 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar,
+      appBar:AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        title: const Text(
+          'Welcome',
+          style: TextStyle(color: Colours.themeColor, fontSize: 20,fontWeight: FontWeight.w800),
+        ),
+        iconTheme: const IconThemeData(color: Colours.drawerColor),
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.pushNamed(context, 'history_screen');
+          }, icon: Icon(Icons.history),padding: EdgeInsets.symmetric(horizontal: 20.w),)
+        ],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -93,16 +107,6 @@ class _MapScreenState extends State<MapScreen> {
           )
         ],
       ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: _goToTheLake,
-      //   label: const Text('CECOS University'),
-      //   icon: const Icon(Icons.directions_boat),
-      // ),
     );
   }
-
-  // Future<void> _goToTheLake() async {
-  //   final GoogleMapController controller = await _controller.future;
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(_kCECOS));
-  // }
 }
