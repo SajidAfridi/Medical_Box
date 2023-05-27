@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:medical_box/features/OtherScreens/history_screen.dart';
 import '../../utils/app_colors.dart';
-import '../../widgets/app_bar.dart';
 import '../../widgets/header_of_all_screens.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
-
+  const MapScreen({Key? key, required this.userID}) : super(key: key);
+  final String userID;
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
@@ -21,11 +21,6 @@ class _MapScreenState extends State<MapScreen> {
     target: LatLng(33.997484888266584, 71.46691819101065),
     zoom: 14.4746,
   );
-
-  static const CameraPosition _kCECOS = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(33.95631023099256, 71.43736221534408),
-      zoom: 18.151926040649414);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +36,13 @@ class _MapScreenState extends State<MapScreen> {
         iconTheme: const IconThemeData(color: Colours.drawerColor),
         actions: [
           IconButton(onPressed: (){
-            Navigator.pushNamed(context, 'history_screen');
-          }, icon: Icon(Icons.history),padding: EdgeInsets.symmetric(horizontal: 20.w),)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HistoryScreen(userID: widget.userID.toString()),
+              ),
+            );
+          }, icon: const Icon(Icons.history),padding: EdgeInsets.symmetric(horizontal: 20.w),)
         ],
       ),
       body: Column(

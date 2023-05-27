@@ -5,7 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  const HistoryScreen({Key? key, required this.userID}) : super(key: key);
+  final String userID;
 
   @override
   _HistoryScreenState createState() => _HistoryScreenState();
@@ -15,41 +16,39 @@ class _HistoryScreenState extends State<HistoryScreen> {
   List<String> sessions = [];
   List<String> trips = [];
   String? selectedSession;
+  String? adminID;
+  String? boxID;
 
   @override
   void initState() {
     super.initState();
+    getAdminID();
     fetchDataOnce();
   }
 
-  Future<Map<String, String>?> getUserData(String userID) async {
+  fetchDataOnce() async {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
-    await FirebaseFirestore.instance
-        .collection('All_Users')
-        .doc(userID)
-        .get();
+        await FirebaseFirestore.instance
+            .collection('All_Users')
+            .doc(widget.userID)
+            .get();
 
     if (snapshot.exists) {
       final userData = snapshot.data();
-      final username = userData?['Username'];
-      final boxID = userData?['BoxId'];
-
-      if (username != null && boxID != null) {
-        return {'username': username, 'boxID': boxID};
+      final adminID = userData?['adminID'];
+      final boxId = userData?['BoxId'];
+      setState(() {
+        boxID = boxId;
+      });
+      if (adminID != null && boxId != null) {
+        return {'username': adminID, 'boxID': boxId};
       }
     }
-
-    return null;
-  }
-
-  fetchDataOnce() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    final adminID = sp.getString('adminID');
     DatabaseReference sessionReference = FirebaseDatabase.instance
         .ref()
         .child(adminID!)
-        .child('100012')
-        .child('2700084');
+        .child(widget.userID)
+        .child(boxID!);
 
     DatabaseEvent sessionEvent = await sessionReference.once();
     for (var session in sessionEvent.snapshot.children) {
@@ -85,9 +84,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     DatabaseReference tripReference = FirebaseDatabase.instance
         .ref()
-        .child('100001')
-        .child('100012')
-        .child('2700084')
+        .child(adminID!)
+        .child(widget.userID)
+        .child(boxID!)
         .child(selectedSession);
 
     DatabaseEvent tripEvent = await tripReference.once();
@@ -116,12 +115,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 items: sessions.map((String session) {
                   return DropdownMenuItem<String>(
                     value: session,
-                    child: Text(
-                      'Session: $session',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
+                    child: Center(
+                      child: Text(
+                        'Session: $session',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   );
@@ -135,7 +136,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 itemBuilder: (context, index) {
                   return Card(
                     color: Colors.blue, // Change card color
-                    margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    margin:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     child: ListTile(
                       title: Text(
                         'Trip: ${trips[index]}',
@@ -153,5 +155,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ),
       ),
     );
+  }
+
+  Future<String?> getAdminID() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    final adminId = sp.getString('adminID');
+    setState(() {
+      adminID = adminId;
+    });
+    return null;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/utils/dividers.dart';
@@ -7,6 +9,8 @@ import 'package:medical_box/widgets/input_decoration.dart';
 import 'package:medical_box/widgets/button_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../OtherScreens/home_screen.dart';
 
 class LogInScreen extends StatefulWidget {
   const LogInScreen({Key? key}) : super(key: key);
@@ -130,10 +134,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                   await SharedPreferences.getInstance();
                               sharedPreferences.setString('uid', uid);
                               sharedPreferences.setBool('isLoggedIn', true);
-                              Navigator.pushReplacementNamed(
-                                context,
-                                'home_screen',
-                              );
+                              Get.offAll(()=> const HomeScreen());
+                              // Navigator.pushReplacementNamed(
+                              //   context,
+                              //   'home_screen',
+                              // );
                             } catch (e) {
                               // Handle login error
                               _showErrorSnackbar(

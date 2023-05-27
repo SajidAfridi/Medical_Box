@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medical_box/features/OtherScreens/maps_screen.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,11 +28,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void fetchDataOnce() async {
     final SharedPreferences adminIDInstance =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     final adminID = adminIDInstance.getString('adminID');
     //print(adminID);
     DatabaseReference reference =
-    FirebaseDatabase.instance.ref().child(adminID!);
+        FirebaseDatabase.instance.ref().child(adminID!);
 
     DatabaseEvent event = await reference.once();
 
@@ -61,10 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<String?> getUserName(String userID) async {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
-    await FirebaseFirestore.instance
-        .collection('All_Users')
-        .doc(userID)
-        .get();
+        await FirebaseFirestore.instance
+            .collection('All_Users')
+            .doc(userID)
+            .get();
 
     if (snapshot.exists) {
       final userData = snapshot.data();
@@ -76,10 +77,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<String?> getUserBoxID(String userID) async {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
-    await FirebaseFirestore.instance
-        .collection('All_Users')
-        .doc(userID)
-        .get();
+        await FirebaseFirestore.instance
+            .collection('All_Users')
+            .doc(userID)
+            .get();
 
     if (snapshot.exists) {
       final userData = snapshot.data();
@@ -109,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: CircleAvatar(
                         radius: 22.sp,
                         backgroundImage:
-                        const AssetImage('assets/images/profile.png'),
+                            const AssetImage('assets/images/profile.png'),
                       ),
                     ),
                   ),
@@ -149,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ListView.separated(
                             separatorBuilder:
                                 (BuildContext context, int index) =>
-                                Divider(height: 5.h),
+                                    Divider(height: 5.h),
                             itemCount: filteredUsers.length,
                             itemBuilder: (BuildContext context, int index) {
                               return FutureBuilder<String?>(
@@ -168,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         tileColor: Colours.listTileColor,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(20.0.r),
+                                              BorderRadius.circular(20.0.r),
                                           side: BorderSide(
                                             color: Colors.grey.shade300,
                                             width: 1.0.w,
@@ -176,8 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         leading: CircleAvatar(
                                           radius: 25.sp,
-                                          backgroundImage:
-                                          const AssetImage(
+                                          backgroundImage: const AssetImage(
                                               'assets/images/profile.png'),
                                         ),
                                         title: Text(
@@ -200,8 +200,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           size: 20.sp,
                                         ),
                                         onTap: () {
-                                          Navigator.pushNamed(
-                                              context, 'map_screen');
+                                          Navigator.push(
+                                              context,
+                                              MapScreen(
+                                                          userID: filteredUsers[
+                                                              index])
+                                                      .toString()
+                                                  as Route<Object?>);
                                         },
                                       ),
                                     );
@@ -219,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         tileColor: Colours.listTileColor,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                          BorderRadius.circular(20.0.r),
+                                              BorderRadius.circular(20.0.r),
                                           side: BorderSide(
                                             color: Colors.grey.shade300,
                                             width: 1.0.w,
@@ -227,8 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         leading: CircleAvatar(
                                           radius: 25.sp,
-                                          backgroundImage:
-                                          const AssetImage(
+                                          backgroundImage: const AssetImage(
                                               'assets/images/profile.png'),
                                         ),
                                         title: Text(
@@ -271,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       tileColor: Colours.listTileColor,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(20.0.r),
+                                            BorderRadius.circular(20.0.r),
                                         side: BorderSide(
                                           color: Colors.grey.shade300,
                                           width: 1.0.w,
@@ -291,8 +295,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       subtitle: FutureBuilder<String?>(
-                                        future: getUserBoxID(
-                                            filteredUsers[index]),
+                                        future:
+                                            getUserBoxID(filteredUsers[index]),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
@@ -321,8 +325,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                         size: 20.sp,
                                       ),
                                       onTap: () {
-                                        Navigator.pushNamed(
-                                            context, 'map_screen');
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MapScreen(
+                                                userID: filteredUsers[index]),
+                                          ),
+                                        );
                                       },
                                     ),
                                   );
