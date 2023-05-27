@@ -1,16 +1,102 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({Key? key}) : super(key: key);
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
   @override
-  _HistoryPageState createState() => _HistoryPageState();
+  _HistoryScreenState createState() => _HistoryScreenState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
-  final databaseReference = FirebaseDatabase.instance.reference();
+class _HistoryScreenState extends State<HistoryScreen> {
+  List<String> sessions = [];
+  List<String> trips = [];
+  String? selectedSession;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataOnce();
+  }
+
+  Future<Map<String, String>?> getUserData(String userID) async {
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+    await FirebaseFirestore.instance
+        .collection('All_Users')
+        .doc(userID)
+        .get();
+
+    if (snapshot.exists) {
+      final userData = snapshot.data();
+      final username = userData?['Username'];
+      final boxID = userData?['BoxId'];
+
+      if (username != null && boxID != null) {
+        return {'username': username, 'boxID': boxID};
+      }
+    }
+
+    return null;
+  }
+
+  fetchDataOnce() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    final adminID = sp.getString('adminID');
+    DatabaseReference sessionReference = FirebaseDatabase.instance
+        .ref()
+        .child(adminID!)
+        .child('100012')
+        .child('2700084');
+
+    DatabaseEvent sessionEvent = await sessionReference.once();
+    for (var session in sessionEvent.snapshot.children) {
+      sessions.add(session.key.toString());
+    }
+
+    setState(() {});
+
+    if (sessions.isNotEmpty) {
+      selectedSession = sessions[0];
+      await fetchTrips(selectedSession!);
+    }
+  }
+
+  Future<void> refreshData() async {
+    sessions.clear();
+    trips.clear();
+    await fetchDataOnce();
+  }
+
+  void onSessionChanged(String? selectedSession) async {
+    setState(() {
+      this.selectedSession = selectedSession;
+    });
+
+    if (selectedSession != null) {
+      await fetchTrips(selectedSession);
+    }
+  }
+
+  Future<void> fetchTrips(String selectedSession) async {
+    trips.clear();
+
+    DatabaseReference tripReference = FirebaseDatabase.instance
+        .ref()
+        .child('100001')
+        .child('100012')
+        .child('2700084')
+        .child(selectedSession);
+
+    DatabaseEvent tripEvent = await tripReference.once();
+    for (var trip in tripEvent.snapshot.children) {
+      trips.add(trip.key.toString());
+    }
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,82 +104,53 @@ class _HistoryPageState extends State<HistoryPage> {
       appBar: AppBar(
         title: const Text('History'),
       ),
-      body: FutureBuilder<DataSnapshot>(
-        future: fetchData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          }
-          if (!snapshot.hasData || snapshot.data!.value == null) {
-            return Center(child: Text('No data available',style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16.sp,
-              color: Colors.black,
-            ),));
-          }
-          // Process the snapshot data
-          final data = snapshot.data!.value;
-          final sessions = (data as Map).keys.toList();
-          return ListView.builder(
-            itemCount: sessions.length,
-            itemBuilder: (context, index) {
-              final sessionKey = sessions[index];
-              final sessionData = data[sessionKey];
-              final trips = (sessionData as Map).values.toList();
-              return _buildSessionItem(sessionKey, trips as Map);
-            },
-          );
-        },
-      ),
-    );
-  }
-
-  Future<DataSnapshot> fetchData() async {
-    final databaseEvent = await databaseReference.child('2700084').once();
-    return databaseEvent.snapshot;
-  }
-
-  Widget _buildSessionItem(String sessionName, Map<dynamic, dynamic> sessionData) {
-    final sessions = sessionData.keys.toList();
-    return Card(
-      margin: EdgeInsets.all(16.w),
-      child: ExpansionPanelList(
-        elevation: 0,
-        expandedHeaderPadding: EdgeInsets.zero,
-        expansionCallback: (panelIndex, isExpanded) {
-          setState(() {
-            isExpanded = !isExpanded;
-          });
-        },
-        children: sessions.map<ExpansionPanel>((session) {
-          final sessionKey = session.toString();
-          final sessionTrips = (sessionData[sessionKey] as Map<dynamic, dynamic>).keys.toList();
-          return ExpansionPanel(
-            headerBuilder: (context, isExpanded) {
-              return ListTile(
-                title: Text(
-                  sessionKey,
-                  style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
-                ),
-              );
-            },
-            body: Column(
-              children: sessionTrips.map<Widget>((trip) {
-                final tripData = (sessionData[sessionKey] as Map<dynamic, dynamic>)[trip];
-                final timingStart = tripData['Timing']['Start'];
-                final timingEnd = tripData['Timing']['End'];
-                return ListTile(
-                  title: Text('$trip (Start: $timingStart, End: $timingEnd)'),
-                  subtitle: Text('Location: ${tripData['Location']}'),
-                );
-              }).toList(),
+      body: RefreshIndicator(
+        onRefresh: refreshData,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16.0.r),
+              child: DropdownButton<String>(
+                value: selectedSession,
+                items: sessions.map((String session) {
+                  return DropdownMenuItem<String>(
+                    value: session,
+                    child: Text(
+                      'Session: $session',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: onSessionChanged,
+              ),
             ),
-            // isExpanded: isExpanded,
-          );
-        }).toList(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: trips.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    color: Colors.blue, // Change card color
+                    margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    child: ListTile(
+                      title: Text(
+                        'Trip: ${trips[index]}',
+                        style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, 'map_screen');
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/widgets/button_style.dart';
 import 'package:medical_box/widgets/input_decoration.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -187,6 +188,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 40.h,
                     child: ElevatedButton(
                       onPressed: () async {
+                        String idAdmin = adminID.text;
                         setState(() {
                           loginPressed = true;
                         });
@@ -202,13 +204,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                             if (user != null) {
                               final adminCollection = FirebaseFirestore.instance
-                                  .collection('admin');
+                                  .collection('Admins');
                               await adminCollection.doc(adminID.text).set({
                                 'adminID': adminID.text,
                                 'adminEmail': adminEmail.text,
                                 'phoneNo' : phoneNo.text,
                                 'password' : password.text,
                               });
+                              SharedPreferences sharedPreferences =await SharedPreferences.getInstance();
+                              sharedPreferences.setString('adminID', idAdmin);
                               Navigator.pushReplacementNamed(
                                   context, 'login_screen');
                             } else {}

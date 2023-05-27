@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/features/authentication/login_page.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -15,18 +16,24 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   String email = '';
   String adminId = '';
+  String phoneNo = '';
   Future<void> getUserData() async {
+    print('come here');
     final user = FirebaseAuth.instance.currentUser;
     final uid = user!.uid;
+    SharedPreferences sharedPreferences =await SharedPreferences.getInstance();
+    adminId = sharedPreferences.getString('adminID')!;
+    print("---------------------------------------------->$adminId");
 
     final adminDoc = await FirebaseFirestore.instance
-        .collection('admin')
-        .doc('123456')
+        .collection('Admins')
+        .doc(adminId)
         .get();
-
+    print(adminDoc);
     setState(() {
       email = adminDoc['adminEmail'];
       adminId = adminDoc['adminID'];
+      phoneNo = adminDoc['phoneNo'];
     });
   }
   @override
@@ -101,18 +108,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(height: 10.h),
                       buildProfileItem(
-                        label: 'Password',
-                        value: '******',
-                      ),
-                      SizedBox(height: 10.h),
-                      buildProfileItem(
-                        label: 'Your ID',
+                        label: 'ID',
                         value: adminId,
                       ),
                       SizedBox(height: 10.h),
                       buildProfileItem(
                         label: 'Phone Number',
-                        value: '03000000000',
+                        value: phoneNo,
                       ),
                       SizedBox(height: 20.h),
                       GestureDetector(
@@ -187,6 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         trailing: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(

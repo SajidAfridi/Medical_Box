@@ -20,6 +20,7 @@ dependencies:
   provider:
   shared_preferences:
   http:
+  get:
 
   cupertino_icons: ^1.0.2
 

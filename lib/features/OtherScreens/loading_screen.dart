@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/features/OtherScreens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../authentication/login_page.dart';
@@ -18,27 +17,28 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     _sharedPrep();
-    _changeposition();
+    _changePosition();
     _navigate();
     super.initState();
   }
-  _navigate()async{
+
+  _navigate() async {
     await Future.delayed(const Duration(milliseconds: 2000), () {});
-    if(isLoggedIn){
+    if (isLoggedIn) {
       Navigator.pushReplacementNamed(context, 'home_screen');
-    }
-    else{
+    } else {
       Navigator.pushReplacementNamed(context, 'login_screen');
     }
     isLoggedIn ? const HomeScreen() : const LogInScreen();
-
   }
-  _sharedPrep()async{
+
+  _sharedPrep() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     isLoggedIn = sharedPreferences.getBool('isLoggedIn') ?? false;
   }
-  _changeposition()async{
-    await Future.delayed(const Duration(milliseconds: 1000),(){
+
+  _changePosition() async {
+    await Future.delayed(const Duration(milliseconds: 1000), () {
       setState(() {
         changedPosition = !changedPosition;
       });
@@ -68,12 +68,12 @@ class _LoadingPageState extends State<LoadingPage> {
               children: [
                 Container(
                   color: Colors.transparent,
-                  height: 120.h,
-                  width: 200.w,
-                  child: Image(
-                    image: const AssetImage('assets/images/firstaidIcon.png'),
-                    height: MediaQuery.of(context).size.height*0.4,
-                    fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: const Image(
+                    image: AssetImage('assets/images/firstaidIcon.png'),
+                    //height: MediaQuery.of(context).size.height*0.2,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ],

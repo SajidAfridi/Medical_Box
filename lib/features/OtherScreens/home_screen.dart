@@ -1,11 +1,93 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
-import 'package:medical_box/widgets/header_of_all_screens.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<String> users = [];
+  List<String> filteredUsers = [];
+
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDataOnce();
+  }
+
+  void fetchDataOnce() async {
+    final SharedPreferences adminIDInstance =
+    await SharedPreferences.getInstance();
+    final adminID = adminIDInstance.getString('adminID');
+    //print(adminID);
+    DatabaseReference reference =
+    FirebaseDatabase.instance.ref().child(adminID!);
+
+    DatabaseEvent event = await reference.once();
+
+    List<String> fetchedUsers = [];
+
+    for (var element in event.snapshot.children) {
+      fetchedUsers.add(element.key.toString());
+    }
+
+    setState(() {
+      users = fetchedUsers;
+      filteredUsers = fetchedUsers;
+    });
+  }
+
+  void refreshData() {
+    fetchDataOnce();
+  }
+
+  void filterUsers(String query) {
+    setState(() {
+      filteredUsers = users
+          .where((user) => user.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
+  Future<String?> getUserName(String userID) async {
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+    await FirebaseFirestore.instance
+        .collection('All_Users')
+        .doc(userID)
+        .get();
+
+    if (snapshot.exists) {
+      final userData = snapshot.data();
+      return userData?['Username'];
+    }
+
+    return null;
+  }
+
+  Future<String?> getUserBoxID(String userID) async {
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+    await FirebaseFirestore.instance
+        .collection('All_Users')
+        .doc(userID)
+        .get();
+
+    if (snapshot.exists) {
+      final userData = snapshot.data();
+      return userData?['BoxId'];
+    }
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,87 +100,239 @@ class HomeScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, 'profile_screen');
-                    },
-                    child: CircleAvatar(
-                      radius: 22.sp,
-                      backgroundImage: const AssetImage('assets/images/profile.png'),
+                  Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, 'profile_screen');
+                      },
+                      child: CircleAvatar(
+                        radius: 22.sp,
+                        backgroundImage:
+                        const AssetImage('assets/images/profile.png'),
+                      ),
                     ),
                   ),
-                  SizedBox(width: 16.w),
-                  Text(
-                    'Welcome',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18.sp,
+                  Expanded(
+                    flex: 4,
+                    child: Padding(
+                      padding: EdgeInsets.all(10.w),
+                      child: TextField(
+                        controller: searchController,
+                        onChanged: (value) {
+                          filterUsers(value);
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'Search',
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
               fixSizedBox20,
-              header(
-                'Users',
-                Icon(
-                  Icons.person_outline_outlined,
-                  color: Colours.drawerColor,
-                  size: 22.sp,
-                ),
-              ),
               Expanded(
                 child: Card(
                   elevation: 0,
-                  margin: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: ListView.separated(
-                    separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(height: 5),
-                    itemCount: 10,
-                    itemBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        width: double.infinity,
-                        height: 80.h,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 12.0.w,
-                            vertical: 2.0.h,
-                          ),
-                          tileColor: Colours.listTileColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0.r),
-                            side: BorderSide(
-                              color: Colors.grey.shade300,
-                              width: 1.0.w,
-                            ),
-                          ),
-                          leading: CircleAvatar(
-                            radius: 25.sp,
-                            backgroundImage:
-                            const AssetImage('assets/images/profile.png'),
-                          ),
-                          title: Text(
-                            'Name ${index + 1}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.sp,
-                            ),
-                          ),
-                          subtitle: Text(
-                            'Name',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward,
-                            size: 20.sp,
-                          ),
-                          onTap: () {
-                            Navigator.pushNamed(context, 'map_screen');
+                  margin: EdgeInsets.symmetric(vertical: 10.0.h),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            refreshData();
                           },
+                          child: ListView.separated(
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                Divider(height: 5.h),
+                            itemCount: filteredUsers.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return FutureBuilder<String?>(
+                                future: getUserName(filteredUsers[index]),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return SizedBox(
+                                      width: double.infinity,
+                                      height: 80.h,
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 12.0.w,
+                                          vertical: 2.0.h,
+                                        ),
+                                        tileColor: Colours.listTileColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(20.0.r),
+                                          side: BorderSide(
+                                            color: Colors.grey.shade300,
+                                            width: 1.0.w,
+                                          ),
+                                        ),
+                                        leading: CircleAvatar(
+                                          radius: 25.sp,
+                                          backgroundImage:
+                                          const AssetImage(
+                                              'assets/images/profile.png'),
+                                        ),
+                                        title: Text(
+                                          'Loading...',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.sp,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          'Loading...',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        trailing: Icon(
+                                          Icons.arrow_forward,
+                                          size: 20.sp,
+                                        ),
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, 'map_screen');
+                                        },
+                                      ),
+                                    );
+                                  }
+
+                                  if (snapshot.hasError) {
+                                    return SizedBox(
+                                      width: double.infinity,
+                                      height: 80.h,
+                                      child: ListTile(
+                                        contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 12.0.w,
+                                          vertical: 2.0.h,
+                                        ),
+                                        tileColor: Colours.listTileColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(20.0.r),
+                                          side: BorderSide(
+                                            color: Colors.grey.shade300,
+                                            width: 1.0.w,
+                                          ),
+                                        ),
+                                        leading: CircleAvatar(
+                                          radius: 25.sp,
+                                          backgroundImage:
+                                          const AssetImage(
+                                              'assets/images/profile.png'),
+                                        ),
+                                        title: Text(
+                                          'Error',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18.sp,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        subtitle: Text(
+                                          'Failed to load user data',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        trailing: Icon(
+                                          Icons.arrow_forward,
+                                          size: 20.sp,
+                                        ),
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, 'map_screen');
+                                        },
+                                      ),
+                                    );
+                                  }
+
+                                  final userName = snapshot.data ?? '';
+
+                                  return SizedBox(
+                                    width: double.infinity,
+                                    height: 80.h,
+                                    child: ListTile(
+                                      contentPadding: EdgeInsets.symmetric(
+                                        horizontal: 12.0.w,
+                                        vertical: 2.0.h,
+                                      ),
+                                      tileColor: Colours.listTileColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(20.0.r),
+                                        side: BorderSide(
+                                          color: Colors.grey.shade300,
+                                          width: 1.0.w,
+                                        ),
+                                      ),
+                                      leading: CircleAvatar(
+                                        radius: 25.sp,
+                                        backgroundImage: const AssetImage(
+                                            'assets/images/profile.png'),
+                                      ),
+                                      title: Text(
+                                        userName,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18.sp,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      subtitle: FutureBuilder<String?>(
+                                        future: getUserBoxID(
+                                            filteredUsers[index]),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Text(
+                                              'Loading...',
+                                              style: TextStyle(
+                                                fontSize: 16.sp,
+                                                color: Colors.black,
+                                              ),
+                                            );
+                                          }
+
+                                          final boxID = snapshot.data ?? '';
+
+                                          return Text(
+                                            'Box ID: $boxID',
+                                            style: TextStyle(
+                                              fontSize: 16.sp,
+                                              color: Colors.black,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      trailing: Icon(
+                                        Icons.arrow_forward,
+                                        size: 20.sp,
+                                      ),
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, 'map_screen');
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
-                      );
-                    },
+                      ),
+                    ],
                   ),
                 ),
               ),

@@ -35,11 +35,6 @@ class _LogInScreenState extends State<LogInScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Future<void> _saveUidToSharedPreferences(String uid) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('uid', uid);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,9 +124,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                 email: email.text,
                                 password: password.text,
                               );
-                              String uid = FirebaseAuth.instance.currentUser!.uid;
-                              SharedPreferences sharedPreferences =await SharedPreferences.getInstance();
-                              sharedPreferences.setString('uid', '$uid');
+                              String uid =
+                                  FirebaseAuth.instance.currentUser!.uid;
+                              SharedPreferences sharedPreferences =
+                                  await SharedPreferences.getInstance();
+                              sharedPreferences.setString('uid', uid);
                               sharedPreferences.setBool('isLoggedIn', true);
                               Navigator.pushReplacementNamed(
                                 context,
@@ -175,8 +172,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           child: Text(
                             "Sign Up",
                             style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.green,
                               fontSize: 18.sp,
                             ),
                           ),
