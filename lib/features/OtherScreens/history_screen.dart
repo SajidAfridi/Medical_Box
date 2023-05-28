@@ -148,7 +148,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => HistoryMapScreen(adminID: adminID, UserID: widget.userID, BoxID: boxID, SessionID: selectedSession, TripID: trips[index])),
+                          MaterialPageRoute(
+                            builder: (context) => HistoryMapScreen(
+                                adminID: adminID,
+                                UserID: widget.userID,
+                                BoxID: boxID,
+                                SessionID: selectedSession,
+                                TripID: trips[index]),
+                          ),
                         );
                       },
                     ),

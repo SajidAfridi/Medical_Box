@@ -20,7 +20,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String phoneNo = '';
 
   Future<void> getUserData() async {
-    print('come here');
     final user = FirebaseAuth.instance.currentUser;
     final uid = user!.uid;
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

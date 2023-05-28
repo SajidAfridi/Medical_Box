@@ -69,7 +69,7 @@ class _HistoryMapScreenState extends State<HistoryMapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Map Screen'),
+        title: const Text('Map Screen'),
       ),
       body: StreamBuilder(
         stream: _databaseReference
@@ -81,24 +81,28 @@ class _HistoryMapScreenState extends State<HistoryMapScreen> {
           if (snapshot.hasData) {
             final event = snapshot.data as DatabaseEvent;
             final Map<dynamic, dynamic> data = {};
-            event.snapshot.children.forEach((child) {
+            for (var child in event.snapshot.children) {
               data[child.key] = child.value;
-            });
-
+            }
             _updateCoordinates(data);
 
-            return GoogleMap(
-              onMapCreated: (controller) {
-                setState(() {
-                  mapController = controller;
-                });
-              },
-              initialCameraPosition: CameraPosition(
-                target: LatLng(37.4219999, -122.0840575),
-                zoom: 15.0,
-              ),
-              markers: _getMarkers(),
-              polylines: _createPolylines(),
+            return Stack(
+              children: [
+                GoogleMap(
+                  onMapCreated: (controller) {
+                    setState(() {
+                      mapController = controller;
+                    });
+                  },
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(37.4219999, -122.0840575),
+                    zoom: 15.0,
+                  ),
+                  markers: _getMarkers(),
+                  polylines: _createPolylines(),
+                ),
+
+              ]
             );
           } else {
             return Center(

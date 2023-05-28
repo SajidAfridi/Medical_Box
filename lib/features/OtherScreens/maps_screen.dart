@@ -1,112 +1,216 @@
-import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:medical_box/features/OtherScreens/history_screen.dart';
-import '../../utils/app_colors.dart';
-import '../../widgets/header_of_all_screens.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
+
+import 'history_screen.dart';
+
+List<Coordinate> coordinates = [];
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key, required this.userID}) : super(key: key);
   final String userID;
+  const MapScreen({
+    Key? key,required this.userID,
+  }) : super(key: key);
+
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  _MapScreenState createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-  final Completer<GoogleMapController> _controller =
-      Completer<GoogleMapController>();
+  double lat1 = 0.0;
+  double lat2 = 0.0;
+  double long1 = 0.0;
+  double long2 = 0.0;
+  String tripId = '';
+  String? adminID;
+  String? boxID;
+  String? sessionDate;
+  GoogleMapController? mapController;
+  final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(33.997484888266584, 71.46691819101065),
-    zoom: 14.4746,
-  );
+  getTrip(){
+    DateTime now = DateTime.now();
+    print(sessionDate);
+    print(boxID);
+    print(adminID);
+    print(widget.userID);
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    _databaseReference.child('/$adminID/${widget.userID}/$boxID/$formattedDate/').limitToLast(1).onValue.listen((event) {
+      print(event.snapshot.children.last.key);
+      tripId = (event.snapshot.children.last.key)!;
+    });
+    setState(() {
+      sessionDate = formattedDate.toString();
+    });
+  }
+
+  getUserData() async {
+    final DocumentSnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance
+        .collection('All_Users')
+        .doc(widget.userID)
+        .get();
+
+    if (snapshot.exists) {
+      final userData = snapshot.data();
+      String? boxId = userData?['BoxId'];
+      String? adminId = userData?['AdminId'];
+      setState(() {
+        boxID = boxId;
+        adminID = adminId;
+      });
+    }
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('dd-MM-yyyy').format(now);
+    _databaseReference.child('/$adminID/${widget.userID}/$boxID/$formattedDate/').limitToLast(1).onValue.listen((event) {
+      print(event.snapshot.children.last.key);
+      tripId = (event.snapshot.children.last.key)!;
+    });
+    setState(() {
+      sessionDate = formattedDate.toString();
+      print(sessionDate);
+      print(boxID);
+      print(adminID);
+      print(widget.userID);
+      print(tripId);
+    });
+
+    return null;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    coordinates.clear();
+  }
+
+  void _updateCoordinates(Map<dynamic, dynamic> data) {
+    coordinates.clear();
+    data.forEach((key, value) {
+      dynamic latitude = value['latitude'] == 0 ? 0.0 : value['latitude'];
+      dynamic longitude = value['Longitude'] == 0 ? 0.0 : value['Longitude'];
+      Coordinate coordinate =
+          Coordinate(latitude: latitude, longitude: longitude);
+      coordinates.add(coordinate);
+    });
+
+    if (coordinates.isNotEmpty) {
+      lat1 = coordinates.first.latitude;
+      lat2 = coordinates.last.latitude;
+      long1 = coordinates.first.longitude;
+      long2 = coordinates.last.longitude;
+      _updateMap(lat1, long1);
+    }
+  }
+
+  void _updateMap(double latitude, double longitude) {
+    if (mapController != null) {
+      mapController!.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(latitude, longitude),
+          zoom: 15.0,
+        ),
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        centerTitle: true,
-        title: const Text(
-          'Welcome',
-          style: TextStyle(color: Colours.themeColor, fontSize: 20,fontWeight: FontWeight.w800),
-        ),
-        iconTheme: const IconThemeData(color: Colours.drawerColor),
+      appBar: AppBar(
+        title: const Text('Current Location'),
         actions: [
           IconButton(onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HistoryScreen(userID: widget.userID.toString()),
-              ),
-            );
-          }, icon: const Icon(Icons.history),padding: EdgeInsets.symmetric(horizontal: 20.w),)
+            Navigator.push(context, MaterialPageRoute(builder: (context){
+              return HistoryScreen(userID: widget.userID);
+            }));
+          }, icon: const Icon(Icons.history)),
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(17.h, 4.w, 13.h, 5.w),
-            child: header(
-              'Your Location',
-              const Icon(
-                Icons.location_on_outlined,
-                color: Colours.drawerColor,
-                size: 22,
-              ),
-            ),
-          ),
-          Expanded(
-            child: Stack(
-              children: [
-                Container(
-                  color: Colors.blueGrey,
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: GoogleMap(
-                    mapType: MapType.normal,
-                    initialCameraPosition: _kGooglePlex,
-                    onMapCreated: (GoogleMapController controller) {
-                      _controller.complete(controller);
-                    },
-                  ),
+
+      body: StreamBuilder(
+        stream: _databaseReference
+            .child(
+              '/$adminID/${widget.userID}/$boxID/$sessionDate/$tripId/Location/',
+            )
+            .onValue,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final event = snapshot.data as DatabaseEvent;
+            final Map<dynamic, dynamic> data = {};
+            for (var child in event.snapshot.children) {
+              data[child.key] = child.value;
+            }
+            _updateCoordinates(data);
+
+            return Stack(children: [
+              GoogleMap(
+                onMapCreated: (controller) {
+                  setState(() {
+                    mapController = controller;
+                  });
+                },
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(37.4219999, -122.0840575),
+                  zoom: 15.0,
                 ),
-                Positioned(
-                  left: 70.w,
-                  bottom: 10.h,
-                  child: Container(
-                    width: 200.w,
-                    height: 150.h,
-                    padding: EdgeInsets.all(8.0.r),
-                    decoration: ShapeDecoration(
-                      color: Colours.themeColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0.r),
-                      ),
-                    ),
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(10.w, 0, 10.w, 5.h),
-                      height: 80.h,
-                      width: 250.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5.r),
-                        ),
-                        image: const DecorationImage(
-                            image: AssetImage("assets/images/temp.png"),
-                            fit: BoxFit.fill),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+                markers: _getMarkers(),
+                polylines: _createPolylines(),
+              ),
+            ]);
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
+
+  Set<Polyline> _createPolylines() {
+    List<LatLng> polylineCoordinates = [];
+    for (var coordinate in coordinates) {
+      polylineCoordinates
+          .add(LatLng(coordinate.latitude, coordinate.longitude));
+    }
+
+    Polyline polyline = Polyline(
+      polylineId: PolylineId('polyline'),
+      color: Colors.red,
+      points: polylineCoordinates,
+      width: 3,
+    );
+
+    return Set<Polyline>.from([polyline]);
+  }
+
+  Set<Marker> _getMarkers() {
+    final Marker marker1 = Marker(
+      markerId: MarkerId(''),
+      position: LatLng(lat1, long1),
+      infoWindow: InfoWindow(title: 'Started '),
+    );
+    final Marker marker2 = Marker(
+      markerId: MarkerId('myLocationyy'),
+      position: LatLng(lat2, long2),
+      infoWindow: InfoWindow(title: 'Ended'),
+    );
+
+    return {marker1, marker2};
+  }
+}
+
+class Coordinate {
+  final dynamic latitude;
+  final dynamic longitude;
+
+  Coordinate({required this.latitude, required this.longitude});
 }
