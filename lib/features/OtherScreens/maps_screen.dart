@@ -10,8 +10,10 @@ List<Coordinate> coordinates = [];
 
 class MapScreen extends StatefulWidget {
   final String userID;
+
   const MapScreen({
-    Key? key,required this.userID,
+    Key? key,
+    required this.userID,
   }) : super(key: key);
 
   @override
@@ -30,14 +32,18 @@ class _MapScreenState extends State<MapScreen> {
   GoogleMapController? mapController;
   final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
 
-  getTrip(){
+  getTrip() {
     DateTime now = DateTime.now();
     print(sessionDate);
     print(boxID);
     print(adminID);
     print(widget.userID);
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    _databaseReference.child('/$adminID/${widget.userID}/$boxID/$formattedDate/').limitToLast(1).onValue.listen((event) {
+    _databaseReference
+        .child('/$adminID/${widget.userID}/$boxID/$formattedDate/')
+        .limitToLast(1)
+        .onValue
+        .listen((event) {
       print(event.snapshot.children.last.key);
       tripId = (event.snapshot.children.last.key)!;
     });
@@ -49,9 +55,9 @@ class _MapScreenState extends State<MapScreen> {
   getUserData() async {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
         await FirebaseFirestore.instance
-        .collection('All_Users')
-        .doc(widget.userID)
-        .get();
+            .collection('All_Users')
+            .doc(widget.userID)
+            .get();
 
     if (snapshot.exists) {
       final userData = snapshot.data();
@@ -64,7 +70,11 @@ class _MapScreenState extends State<MapScreen> {
     }
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
-    _databaseReference.child('/$adminID/${widget.userID}/$boxID/$formattedDate/').limitToLast(1).onValue.listen((event) {
+    _databaseReference
+        .child('/$adminID/${widget.userID}/$boxID/$formattedDate/')
+        .limitToLast(1)
+        .onValue
+        .listen((event) {
       print(event.snapshot.children.last.key);
       tripId = (event.snapshot.children.last.key)!;
     });
@@ -79,12 +89,14 @@ class _MapScreenState extends State<MapScreen> {
 
     return null;
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUserData();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -127,14 +139,15 @@ class _MapScreenState extends State<MapScreen> {
       appBar: AppBar(
         title: const Text('Current Location'),
         actions: [
-          IconButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context){
-              return HistoryScreen(userID: widget.userID);
-            }));
-          }, icon: const Icon(Icons.history)),
+          IconButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return HistoryScreen(userID: widget.userID);
+                }));
+              },
+              icon: const Icon(Icons.history)),
         ],
       ),
-
       body: StreamBuilder(
         stream: _databaseReference
             .child(
