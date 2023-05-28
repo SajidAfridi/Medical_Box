@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/utils/dividers.dart';
@@ -122,25 +121,18 @@ class _LogInScreenState extends State<LogInScreen> {
                           });
                           if (_formkey.currentState!.validate()) {
                             try {
-                              final UserCredential userCredential =
-                                  await FirebaseAuth.instance
-                                      .signInWithEmailAndPassword(
-                                email: email.text,
-                                password: password.text,
-                              );
-                              String uid =
-                                  FirebaseAuth.instance.currentUser!.uid;
+                              UserCredential userCredential = await FirebaseAuth
+                                  .instance
+                                  .signInWithEmailAndPassword(
+                                      email: email.text.toString(),
+                                      password: password.text.toString());
+                              String uid = userCredential.user!.uid;
                               SharedPreferences sharedPreferences =
                                   await SharedPreferences.getInstance();
                               sharedPreferences.setString('uid', uid);
                               sharedPreferences.setBool('isLoggedIn', true);
-                              Get.offAll(()=> const HomeScreen());
-                              // Navigator.pushReplacementNamed(
-                              //   context,
-                              //   'home_screen',
-                              // );
+                              Get.offAll(() => const HomeScreen());
                             } catch (e) {
-                              // Handle login error
                               _showErrorSnackbar(
                                 'Login failed. Please check your credentials and try again.',
                               );

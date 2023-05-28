@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:medical_box/features/OtherScreens/history_detailed_map.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -35,9 +36,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     if (snapshot.exists) {
       final userData = snapshot.data();
-      final adminID = userData?['adminID'];
+      var adminID = userData?['adminID'];
       final boxId = userData?['BoxId'];
       setState(() {
+        adminID = adminID;
         boxID = boxId;
       });
       if (adminID != null && boxId != null) {
@@ -144,7 +146,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         style: TextStyle(color: Colors.white, fontSize: 16.sp),
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, 'map_screen');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HistoryMapScreen(adminID: adminID, UserID: widget.userID, BoxID: boxID, SessionID: selectedSession, TripID: trips[index])),
+                        );
                       },
                     ),
                   );

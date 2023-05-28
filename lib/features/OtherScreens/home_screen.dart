@@ -166,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           horizontal: 12.0.w,
                                           vertical: 2.0.h,
                                         ),
-                                        tileColor: Colours.listTileColor,
+                                        tileColor: Colors.blue,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(20.0.r),
