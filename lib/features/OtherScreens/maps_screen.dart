@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
@@ -32,19 +33,21 @@ class _MapScreenState extends State<MapScreen> {
   GoogleMapController? mapController;
   final DatabaseReference _databaseReference = FirebaseDatabase.instance.ref();
 
-  getTrip() {
+  String currentTemperature = '0.0';
+  String highTemperature = '0.0';
+  String startTime = "10:10:10";
+  String endTime = "10:10:10";
+  bool isThresholdTemperature = false;
+  String lowTemperature = '0.0';
+
+  getTrip() async {
     DateTime now = DateTime.now();
-    print(sessionDate);
-    print(boxID);
-    print(adminID);
-    print(widget.userID);
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
     _databaseReference
         .child('/$adminID/${widget.userID}/$boxID/$formattedDate/')
         .limitToLast(1)
         .onValue
         .listen((event) {
-      print(event.snapshot.children.last.key);
       tripId = (event.snapshot.children.last.key)!;
     });
     setState(() {
@@ -75,16 +78,52 @@ class _MapScreenState extends State<MapScreen> {
         .limitToLast(1)
         .onValue
         .listen((event) {
-      print(event.snapshot.children.last.key);
       tripId = (event.snapshot.children.last.key)!;
     });
+    print('$adminID ${widget.userID}, $boxID ,$formattedDate , $tripId');
+
+    DatabaseEvent snapshotNo2 = await _databaseReference
+        .child('/$adminID/${widget.userID}/$boxID/$formattedDate/$tripId/')
+        .once();
+
+    if (snapshotNo2.snapshot.value != null) {
+      snapshotNo2.snapshot.children.forEach((element) {
+        lowTemperature = element
+                .child('Info')
+                .child('LowTemperature')
+                .value
+                ?.toString() as String? ??
+            '0.0';
+        highTemperature = element
+                .child('Info')
+                .child('HighTemperature')
+                .value
+                ?.toString() as String? ??
+            '0.0';
+        currentTemperature = element
+                .child('Info')
+                .child('CurrentTemperature')
+                .value
+                ?.toString() as String? ??
+            '0.0';
+        // isThresholdTemperature =element.child('Info').child('CurrentTemperature').value?.toString() as bool? ?? true ;
+      });
+
+      snapshotNo2.snapshot.children.forEach((element) {
+        startTime = element.child('Timing').child('Start').value?.toString()
+                as String? ??
+            '0-0-0';
+        endTime =
+            element.child('Timing').child('End').value?.toString() as String? ??
+                '0-0-0';
+
+        /* print(element.child('Timing').child('Start').value);
+        print(element.child('Timing').child('End').value);*/
+      });
+    }
+
     setState(() {
       sessionDate = formattedDate.toString();
-      print(sessionDate);
-      print(boxID);
-      print(adminID);
-      print(widget.userID);
-      print(tripId);
     });
 
     return null;
@@ -138,14 +177,25 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Current Location'),
+        backgroundColor: Colors.blue.withOpacity(0.7),
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return HistoryScreen(userID: widget.userID);
-                }));
-              },
-              icon: const Icon(Icons.history)),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => HistoryScreen(
+                    userID: widget.userID,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.history,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
       body: StreamBuilder(
@@ -170,16 +220,90 @@ class _MapScreenState extends State<MapScreen> {
                     mapController = controller;
                   });
                 },
-                initialCameraPosition: CameraPosition(
+                initialCameraPosition: const CameraPosition(
                   target: LatLng(37.4219999, -122.0840575),
-                  zoom: 15.0,
+                  zoom: 30.0,
                 ),
                 markers: _getMarkers(),
                 polylines: _createPolylines(),
               ),
+              Positioned(
+                bottom: 20.h,
+                left: 20.w,
+                right: 20.w,
+                child: Container(
+                  padding: EdgeInsets.all(16.0.r),
+                  decoration: BoxDecoration(
+                    color: isThresholdTemperature ? Colors.lightBlue.withOpacity(0.7) : Colors.red.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(12.0.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Start Time: $startTime',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'End Time: $endTime',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10.h),
+                      Center(
+                        child: Text(
+                          '$currentTemperature°C',
+                          style: TextStyle(
+                            fontSize: 25.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 5.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Low Temp: $lowTemperature°C',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            'High Temp: $highTemperature°C',
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ]);
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -196,25 +320,25 @@ class _MapScreenState extends State<MapScreen> {
     }
 
     Polyline polyline = Polyline(
-      polylineId: PolylineId('polyline'),
+      polylineId: const PolylineId('polyline'),
       color: Colors.red,
       points: polylineCoordinates,
       width: 3,
     );
 
-    return Set<Polyline>.from([polyline]);
+    return <Polyline>{polyline};
   }
 
   Set<Marker> _getMarkers() {
     final Marker marker1 = Marker(
-      markerId: MarkerId(''),
+      markerId: const MarkerId(''),
       position: LatLng(lat1, long1),
-      infoWindow: InfoWindow(title: 'Started '),
+      infoWindow: const InfoWindow(title: 'Started '),
     );
     final Marker marker2 = Marker(
-      markerId: MarkerId('myLocationyy'),
+      markerId: const MarkerId('myLocation'),
       position: LatLng(lat2, long2),
-      infoWindow: InfoWindow(title: 'Ended'),
+      infoWindow: const InfoWindow(title: 'Ended'),
     );
 
     return {marker1, marker2};

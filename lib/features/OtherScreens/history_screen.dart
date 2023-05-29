@@ -29,10 +29,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   fetchDataOnce() async {
     final DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await FirebaseFirestore.instance
-            .collection('All_Users')
-            .doc(widget.userID)
-            .get();
+    await FirebaseFirestore.instance
+        .collection('All_Users')
+        .doc(widget.userID)
+        .get();
 
     if (snapshot.exists) {
       final userData = snapshot.data();
@@ -104,6 +104,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('History'),
+        backgroundColor: Colors.blue.withOpacity(0.7),
       ),
       body: RefreshIndicator(
         onRefresh: refreshData,
@@ -112,24 +113,40 @@ class _HistoryScreenState extends State<HistoryScreen> {
           children: [
             Padding(
               padding: EdgeInsets.all(16.0.r),
-              child: DropdownButton<String>(
-                value: selectedSession,
-                items: sessions.map((String session) {
-                  return DropdownMenuItem<String>(
-                    value: session,
-                    child: Center(
-                      child: Text(
-                        'Session: $session',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.0.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
                     ),
-                  );
-                }).toList(),
-                onChanged: onSessionChanged,
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: DropdownButton<String>(
+                    value: selectedSession,
+                    items: sessions.map((String session) {
+                      return DropdownMenuItem<String>(
+                        value: session,
+                        child: Center(
+                          child: Text(
+                            'Session: $session',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: onSessionChanged,
+                  ),
+                ),
               ),
             ),
             Expanded(
@@ -137,24 +154,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 itemCount: trips.length,
                 itemBuilder: (context, index) {
                   return Card(
-                    color: Colors.blue, // Change card color
+                    elevation: 3,
                     margin:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0.r),
+                    ),
                     child: ListTile(
                       title: Text(
                         'Trip: ${trips[index]}',
-                        style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                        style: TextStyle(color: Colors.black, fontSize: 16.sp),
                       ),
+                      tileColor: Colors.blue.withOpacity(0.7), // Change tile background color
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HistoryMapScreen(
-                                adminID: adminID,
-                                UserID: widget.userID,
-                                BoxID: boxID,
-                                SessionID: selectedSession,
-                                TripID: trips[index]),
+                              adminID: adminID,
+                              UserID: widget.userID,
+                              BoxID: boxID,
+                              SessionID: selectedSession,
+                              TripID: trips[index],
+                            ),
                           ),
                         );
                       },

@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: CircleAvatar(
                       radius: 55.r,
                       backgroundImage:
-                          const AssetImage("assets/images/profile.png"),
+                          const AssetImage("assets/images/doctor_profile.jpeg"),
                     ),
                   ),
                 ),
@@ -123,6 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             await SharedPreferences.getInstance();
                         sp.setBool('isLoggedIn', false);
                         sp.setString('uid', '');
+                        sp.setString('adminID', '');
                         FirebaseAuth.instance.signOut();
                         Get.offAll(() => const LogInScreen());
                       },

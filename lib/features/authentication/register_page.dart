@@ -23,8 +23,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   TextEditingController phoneNo = TextEditingController();
-
   bool loginPressed = false;
+
+  void _showErrorSnackbar(String errorMessage) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          errorMessage,
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  Future<void> _registerUser() async {
+    String idAdmin = adminID.text;
+    setState(() {
+      loginPressed = true;
+    });
+    if (_formKey.currentState!.validate()) {
+      try {
+        final FirebaseAuth auth = FirebaseAuth.instance;
+        final UserCredential userCredential =
+            await auth.createUserWithEmailAndPassword(
+          email: adminEmail.text,
+          password: password.text,
+        );
+        final User? user = userCredential.user;
+
+        if (user != null) {
+          final adminCollection =
+              FirebaseFirestore.instance.collection('Admins');
+          await adminCollection.doc(adminID.text).set({
+            'adminID': adminID.text,
+            'adminEmail': adminEmail.text,
+            'phoneNo': phoneNo.text,
+            'password': password.text,
+          });
+          final adminIdCollection =
+              FirebaseFirestore.instance.collection('AdminID');
+          await adminIdCollection
+              .doc(auth.currentUser?.uid)
+              .set({'adminID': adminID.text});
+          Navigator.pushReplacementNamed(context, 'login_screen');
+        } else {
+          _showErrorSnackbar('Registration failed');
+        }
+      } catch (e) {
+        print('Error creating user or uploading user data: $e');
+        _showErrorSnackbar('Error: $e');
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -76,9 +127,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         final RegExp boxIDRegExp =
                             RegExp(r'^(?=.*[A-Za-z\d])[A-Za-z\d]{6,}$');
                         if (value == null || value.isEmpty) {
-                          return 'Please enter a Box ID';
+                          return 'Please enter an Admin ID';
                         } else if (!boxIDRegExp.hasMatch(value)) {
-                          return 'Box ID must be at least 6 characters long';
+                          return 'Admin ID must be at least 6 characters long';
                         }
                         return null;
                       },
@@ -187,40 +238,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     width: 200.w,
                     height: 40.h,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        String idAdmin = adminID.text;
-                        setState(() {
-                          loginPressed = true;
-                        });
-                        if (_formKey.currentState!.validate()) {
-                          try {
-                            final FirebaseAuth auth = FirebaseAuth.instance;
-                            final UserCredential userCredential =
-                                await auth.createUserWithEmailAndPassword(
-                              email: adminEmail.text,
-                              password: password.text,
-                            );
-                            final User? user = userCredential.user;
-
-                            if (user != null) {
-                              final adminCollection = FirebaseFirestore.instance
-                                  .collection('Admins');
-                              await adminCollection.doc(adminID.text).set({
-                                'adminID': adminID.text,
-                                'adminEmail': adminEmail.text,
-                                'phoneNo' : phoneNo.text,
-                                'password' : password.text,
-                              });
-                              SharedPreferences sharedPreferences =await SharedPreferences.getInstance();
-                              sharedPreferences.setString('adminID', idAdmin);
-                              Navigator.pushReplacementNamed(
-                                  context, 'login_screen');
-                            } else {}
-                          } catch (e) {
-                            print(
-                                'Error creating user or uploading user data: $e');
-                          }
-                        }
+                      onPressed: () {
+                        _registerUser();
                       },
                       style: buttonStyle,
                       child: Text(

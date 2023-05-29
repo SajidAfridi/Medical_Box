@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -126,12 +127,32 @@ class _LogInScreenState extends State<LogInScreen> {
                                   .signInWithEmailAndPassword(
                                       email: email.text.toString(),
                                       password: password.text.toString());
+
                               String uid = userCredential.user!.uid;
                               SharedPreferences sharedPreferences =
                                   await SharedPreferences.getInstance();
                               sharedPreferences.setString('uid', uid);
                               sharedPreferences.setBool('isLoggedIn', true);
-                              Get.offAll(() => const HomeScreen());
+
+                              final DocumentSnapshot<Map<String, dynamic>>
+                                  snapshot = await FirebaseFirestore.instance
+                                      .collection('AdminID')
+                                      .doc(uid)
+                                      .get();
+
+                              if (snapshot.exists) {
+                                final userData = snapshot.data();
+                                String AdminId = userData?['adminID'];
+                                sharedPreferences.setString('adminID', AdminId);
+                                Get.offAll (() => const HomeScreen());
+                              } else if (!snapshot.exists) {
+                                sharedPreferences.setString('uid', '');
+                                sharedPreferences.setBool('isLoggedIn', false);
+                                _showErrorSnackbar(
+                                  'Login failed. You can only login as Admin',
+                                );
+                                Get.offAll(() => const LogInScreen());
+                              }
                             } catch (e) {
                               _showErrorSnackbar(
                                 'Login failed. Please check your credentials and try again.',
@@ -170,7 +191,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             "Sign Up",
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              color: Colors.green,
+                              color: Colors.blue,
                               fontSize: 18.sp,
                             ),
                           ),

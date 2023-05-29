@@ -3,12 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../utils/app_colors.dart';
 
 ButtonStyle buttonStyle = ButtonStyle(
-  backgroundColor: MaterialStateProperty.all<Color>(Colours.themeColor),
+  backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.withOpacity(0.7)),
   elevation: MaterialStateProperty.all<double>(1.0.sh),
   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0.r),
-      side: const BorderSide(color: Colours.borderColor),
+      side: BorderSide(color: Colors.blue.withOpacity(0.7)),
     ),
   ),
 );
@@ -23,7 +23,7 @@ ButtonStyle outlinedButtonStyle = ButtonStyle(
   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
     RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10.0.r),
-      side: const BorderSide(color: Colours.borderColor),
+      side: BorderSide(color: Colors.blue.withOpacity(0.7)),
     ),
   ),
 );

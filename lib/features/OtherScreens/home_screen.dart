@@ -95,47 +95,66 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(17.h, 4.w, 13.h, 5.w),
+          padding: EdgeInsets.fromLTRB(0.w, 4.h, 0.w, 5.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, 'profile_screen');
-                      },
-                      child: CircleAvatar(
-                        radius: 22.sp,
-                        backgroundImage:
-                            const AssetImage('assets/images/profile.png'),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Padding(
-                      padding: EdgeInsets.all(10.w),
-                      child: TextField(
-                        controller: searchController,
-                        onChanged: (value) {
-                          filterUsers(value);
+              Container(
+                color: Colors.blue.withOpacity(0.8),
+                height: 100.h,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, 'profile_screen');
                         },
-                        decoration: const InputDecoration(
-                          hintText: 'Search',
-                          prefixIcon: Icon(Icons.search),
-                        ),
-                        style: const TextStyle(
-                          color: Colors.black,
+                        child: Container(
+                          height: 50,
+                          width: 45,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage('assets/images/doctor_profile.jpeg'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      flex: 4,
+                      child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          child: TextField(
+                            controller: searchController,
+                            onChanged: (value) {
+                              filterUsers(value);
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Search',
+                              prefixIcon: Icon(Icons.search),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 15),
+                            ),
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              fixSizedBox20,
+              fixSizedBox10,
               Expanded(
                 child: Card(
                   elevation: 0,
@@ -148,6 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             refreshData();
                           },
                           child: ListView.separated(
+
                             separatorBuilder:
                                 (BuildContext context, int index) =>
                                     Divider(height: 5.h),
@@ -171,14 +191,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                           borderRadius:
                                               BorderRadius.circular(20.0.r),
                                           side: BorderSide(
-                                            color: Colors.grey.shade300,
+                                            color: Colors.blueGrey,
                                             width: 1.0.w,
                                           ),
                                         ),
                                         leading: CircleAvatar(
                                           radius: 25.sp,
                                           backgroundImage: const AssetImage(
-                                              'assets/images/profile.png'),
+                                              'assets/images/img.png'),
                                         ),
                                         title: Text(
                                           'Loading...',
@@ -202,9 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onTap: () {
                                           Navigator.push(
                                               context,
-                                              MapScreen(
-                                                          userID: filteredUsers[
-                                                              index])
+                                              MapScreen(userID: filteredUsers[index])
                                                       .toString()
                                                   as Route<Object?>);
                                         },
@@ -233,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         leading: CircleAvatar(
                                           radius: 25.sp,
                                           backgroundImage: const AssetImage(
-                                              'assets/images/profile.png'),
+                                              'assets/images/img.png'),
                                         ),
                                         title: Text(
                                           'Error',
@@ -272,19 +290,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                         horizontal: 12.0.w,
                                         vertical: 2.0.h,
                                       ),
-                                      tileColor: Colours.listTileColor,
+                                      tileColor: Colors.blue.withOpacity(0.4),
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(20.0.r),
                                         side: BorderSide(
-                                          color: Colors.grey.shade300,
+                                          color: Colors.blueGrey.shade300,
                                           width: 1.0.w,
                                         ),
                                       ),
                                       leading: CircleAvatar(
                                         radius: 25.sp,
                                         backgroundImage: const AssetImage(
-                                            'assets/images/profile.png'),
+                                            'assets/images/img.png'),
                                       ),
                                       title: Text(
                                         userName,
