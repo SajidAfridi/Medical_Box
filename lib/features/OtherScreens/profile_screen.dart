@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         sp.setString('uid', '');
                         sp.setString('adminID', '');
                         FirebaseAuth.instance.signOut();
-                        Get.offAll(() => const LogInScreen());
+                        Get.offAll(() => LogInScreen());
                       },
                       child: Container(
                         height: 50.h,

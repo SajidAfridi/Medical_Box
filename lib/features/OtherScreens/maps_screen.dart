@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
-
 import 'history_screen.dart';
 
 List<Coordinate> coordinates = [];
@@ -116,9 +115,6 @@ class _MapScreenState extends State<MapScreen> {
         endTime =
             element.child('Timing').child('End').value?.toString() as String? ??
                 '0-0-0';
-
-        /* print(element.child('Timing').child('Start').value);
-        print(element.child('Timing').child('End').value);*/
       });
     }
 
@@ -198,117 +194,205 @@ class _MapScreenState extends State<MapScreen> {
           ),
         ],
       ),
-      body: StreamBuilder(
-        stream: _databaseReference
-            .child(
-              '/$adminID/${widget.userID}/$boxID/$sessionDate/$tripId/Location/',
-            )
-            .onValue,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final event = snapshot.data as DatabaseEvent;
-            final Map<dynamic, dynamic> data = {};
-            for (var child in event.snapshot.children) {
-              data[child.key] = child.value;
-            }
-            _updateCoordinates(data);
-
-            return Stack(children: [
-              GoogleMap(
-                onMapCreated: (controller) {
-                  setState(() {
-                    mapController = controller;
-                  });
-                },
-                initialCameraPosition: const CameraPosition(
-                  target: LatLng(37.4219999, -122.0840575),
-                  zoom: 30.0,
-                ),
-                markers: _getMarkers(),
-                polylines: _createPolylines(),
-              ),
-              Positioned(
-                bottom: 20.h,
-                left: 20.w,
-                right: 20.w,
-                child: Container(
-                  padding: EdgeInsets.all(16.0.r),
-                  decoration: BoxDecoration(
-                    color: isThresholdTemperature ? Colors.lightBlue.withOpacity(0.7) : Colors.red.withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(12.0.r),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
+      body: currentTemperature == '0.0'
+          ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Expanded(
+                flex: 3,
+                child: Center(
+                  child: Text(
+                    'The user is currently Offline',
+                    style: TextStyle(color: Colors.red, fontSize: 18.sp),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Start Time: $startTime',
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: EdgeInsets.all(16.0.r),
+                  child: Container(
+                    padding: EdgeInsets.all(16.0.r),
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(12.0.r),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 5.r,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Start Time:',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              'End Time:',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10.h),
+                        Center(
+                          child: Text(
+                            '0 °C',
                             style: TextStyle(
-                              fontSize: 14.sp,
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
-                          ),
-                          Text(
-                            'End Time: $endTime',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h),
-                      Center(
-                        child: Text(
-                          '$currentTemperature°C',
-                          style: TextStyle(
-                            fontSize: 25.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
                           ),
                         ),
-                      ),
-                      SizedBox(height: 5.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Low Temp: $lowTemperature°C',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.white,
+                        SizedBox(height: 5.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Low Temp:',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                          Text(
-                            'High Temp: $highTemperature°C',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: Colors.white,
+                            Text(
+                              'High Temp:',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ]);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
+            ])
+          : StreamBuilder(
+              stream: _databaseReference
+                  .child(
+                    '/$adminID/${widget.userID}/$boxID/$sessionDate/$tripId/Location/',
+                  )
+                  .onValue,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final event = snapshot.data as DatabaseEvent;
+                  final Map<dynamic, dynamic> data = {};
+                  for (var child in event.snapshot.children) {
+                    data[child.key] = child.value;
+                  }
+                  _updateCoordinates(data);
+                  return Stack(children: [
+                    GoogleMap(
+                      onMapCreated: (controller) {
+                        setState(() {
+                          mapController = controller;
+                        });
+                      },
+                      initialCameraPosition: const CameraPosition(
+                        target: LatLng(37.4219999, -122.0840575),
+                        zoom: 30.0,
+                      ),
+                      markers: _getMarkers(),
+                      polylines: _createPolylines(),
+                    ),
+                    Positioned(
+                      bottom: 20.h,
+                      left: 20.w,
+                      right: 20.w,
+                      child: Container(
+                        padding: EdgeInsets.all(16.0.r),
+                        decoration: BoxDecoration(
+                          color: isThresholdTemperature
+                              ? Colors.lightBlue.withOpacity(0.7)
+                              : Colors.red.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(12.0.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 5,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Start Time: $startTime',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'End Time: $endTime',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.h),
+                            Center(
+                              child: Text(
+                                '$currentTemperature°C',
+                                style: TextStyle(
+                                  fontSize: 25.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Low Temp: $lowTemperature°C',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text(
+                                  'High Temp: $highTemperature°C',
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ]);
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
     );
   }
 

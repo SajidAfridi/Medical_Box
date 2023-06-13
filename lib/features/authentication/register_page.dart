@@ -6,7 +6,6 @@ import 'package:medical_box/utils/app_colors.dart';
 import 'package:medical_box/utils/app_sizebox.dart';
 import 'package:medical_box/widgets/button_style.dart';
 import 'package:medical_box/widgets/input_decoration.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,6 +15,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
   TextEditingController adminID = TextEditingController();
@@ -25,14 +25,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController phoneNo = TextEditingController();
   bool loginPressed = false;
 
-  void _showErrorSnackbar(String errorMessage) {
+  void _showSnackbar(String message, bool isSuccess) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          errorMessage,
-          style: const TextStyle(color: Colors.white),
+        content: Row(
+          children: [
+            Icon(
+              isSuccess ? Icons.check : Icons.error,
+              color: isSuccess ? Colors.green : Colors.red,
+            ),
+            const SizedBox(width: 8.0),
+            Text(
+              message,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
-        backgroundColor: Colors.red,
+        backgroundColor: isSuccess ? Colors.green : Colors.red,
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -66,13 +79,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           await adminIdCollection
               .doc(auth.currentUser?.uid)
               .set({'adminID': adminID.text});
+          _showSnackbar('Registration Successful', true);
           Navigator.pushReplacementNamed(context, 'login_screen');
         } else {
-          _showErrorSnackbar('Registration failed');
+          _showSnackbar('Registration failed', false);
         }
       } catch (e) {
         print('Error creating user or uploading user data: $e');
-        _showErrorSnackbar('Error: $e');
+        _showSnackbar('Error: $e', false);
       }
     }
   }
@@ -90,6 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomInset: true,
       backgroundColor: Colours.whiteBackgroundColor,
       body: SingleChildScrollView(

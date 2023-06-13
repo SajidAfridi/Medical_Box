@@ -29,7 +29,7 @@ class _LoadingPageState extends State<LoadingPage> {
     } else {
       Navigator.pushReplacementNamed(context, 'login_screen');
     }
-    isLoggedIn ? const HomeScreen() : const LogInScreen();
+    isLoggedIn ? const HomeScreen() : LogInScreen();
   }
 
   _sharedPrep() async {

@@ -17,10 +17,13 @@ dependencies:
   firebase_core:
   cloud_firestore:
   google_maps_flutter:
-  provider:
+  provider: ^6.0.5
   shared_preferences:
   http:
   get:
+  intl:
+  flutter_slidable:
+  firebase_messaging:
 
   cupertino_icons: ^1.0.2
 

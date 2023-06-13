@@ -10,7 +10,7 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
   }
 
-  Future<String?> signIn(
+  Future<String?> login(
       {required String email, required String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
@@ -19,6 +19,9 @@ class AuthenticationService {
     } on FirebaseAuthException catch (e) {
       return e.message;
     }
+  }
+  Future<String?> uid() async {
+    return await _firebaseAuth.currentUser?.uid;
   }
 
   Future<Object?> signUp(
